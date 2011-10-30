@@ -8,7 +8,9 @@ import java.util.jar.JarFile;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 
-import com.nijikokun.register.payment.Methods;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
+
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,12 +22,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-
-
-//Register
-import com.nijikokun.register.payment.Method.MethodAccount;
-import com.nijikokun.register.payment.Method;
 
 
 //craftirc
@@ -58,6 +56,8 @@ public class DeathTpPlus extends JavaPlugin{
     //Register
     static boolean Register = false;
     boolean useRegister = false;
+    Permission permission = null;
+    Economy economy = null;
 
     //craftirc
     public static CraftIRC craftircHandle = null;
@@ -137,10 +137,12 @@ public class DeathTpPlus extends JavaPlugin{
         deathevents.put("VOID", (List<String>) configuration.getList("void"));
         deathevents.put("WOLF", (List<String>) configuration.getList("wolf"));
         deathevents.put("LIGHTNING", (List<String>) configuration.getList("lightning"));
+        deathevents.put("SUICIDE", (List<String>) configuration.getList("suicide"));
         deathevents.put("UNKNOWN", (List<String>) configuration.getList("unknown"));
         deathevents.put("STARVATION", (List<String>) configuration.getList("starvation"));
         deathevents.put("CAVESPIDER", (List<String>) configuration.getList("cavespider"));
         deathevents.put("ENDERMAN", (List<String>) configuration.getList("enderman"));
+        deathevents.put("SILVERFISH", (List<String>) configuration.getList("silverfish"));
         //Configuration nodes
         deathconfig.put("SHOW_DEATHNOTIFY", configuration.getString("show-deathnotify"));
         deathconfig.put("ALLOW_DEATHTP", configuration.getString("allow-deathtp"));
@@ -188,14 +190,20 @@ public class DeathTpPlus extends JavaPlugin{
             pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Priority.Normal, this);
         }
 
-
+        //Permission
+        RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+        if (permissionProvider != null) {
+            permission = permissionProvider.getProvider();
+            log.info("[" + pluginName + "] found permission provider");
+        }
 
         //Register
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null) {
+            economy = economyProvider.getProvider();
+            log.info("[" + pluginName + "] found economy provider");
+        }
 
-
-
-        getServer().getPluginManager().registerEvent(Event.Type.PLUGIN_ENABLE, new server(this), Priority.Monitor, this);
-        getServer().getPluginManager().registerEvent(Event.Type.PLUGIN_DISABLE, new server(this), Priority.Monitor, this);
 
 
         //craftirc
@@ -250,10 +258,12 @@ public class DeathTpPlus extends JavaPlugin{
         configuration.addDefault("void", "");
         configuration.addDefault("wolf", "");
         configuration.addDefault("lightning", "");
+        configuration.addDefault("suicide", "");
         configuration.addDefault("unknown", "");
         configuration.addDefault("starvation", "");
         configuration.addDefault("cavespider", "");
         configuration.addDefault("enderman", "");
+        configuration.addDefault("silverfish", "");
         //Configuration nodes
         configuration.addDefault("show-deathnotify", "true");
         configuration.addDefault("allow-deathtp", "true");
@@ -272,7 +282,7 @@ public class DeathTpPlus extends JavaPlugin{
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         String command = cmd.getName();
-        boolean canUseCommand = true;
+        boolean canUseCommand = false;
         boolean teleportok = true;
         boolean teleported = false;
 
@@ -280,13 +290,13 @@ public class DeathTpPlus extends JavaPlugin{
             if (sender instanceof Player) {
                 Player player = (Player)sender;
                 String thisWorld = player.getWorld().getName().toString();
-                if (player.hasPermission("deathtpplus.worldtravel") && deathconfig.get("WORLD_TRAVEL").equalsIgnoreCase("permissions"))
+                if (permission.has(player, "deathtpplus.worldtravel") && deathconfig.get("WORLD_TRAVEL").equalsIgnoreCase("permissions"))
                 {
                     worldTravel = true;
                 }
                 double registerCost = Double.valueOf(deathconfig.get("REGISTER_COST").trim()).doubleValue();
 
-                if (player.hasPermission("deathtpplus.deathtp")) {
+                if (permission.has(player, "deathtpplus.deathtp")) {
                     canUseCommand = true;
                 }
                 else {
@@ -318,9 +328,8 @@ public class DeathTpPlus extends JavaPlugin{
                     //costs iconomy
                     if (registerCost > 0) {
                         if (useRegister) {
-                            MethodAccount account = getRegisterMethod().getAccount(player.getName());
-                            if (account != null && account.hasEnough(registerCost)) {
-                                account.subtract(registerCost);
+                            if (economy != null && economy.getBalance(player.getName()) > registerCost) {
+                                economy.withdrawPlayer(player.getName(), registerCost);
                                 player.sendMessage("You used "+registerCost+" to use /deathtp");
                             }
                             else {
@@ -391,9 +400,9 @@ public class DeathTpPlus extends JavaPlugin{
                             else {
                                 player.sendMessage("You do not have a last known death location.");
                             }
-                            if (useRegister && !teleported) {
-                                MethodAccount account = getRegisterMethod().getAccount(player.getName());
-                                account.add(registerCost);
+                            if (useRegister && !teleported && economy != null) {
+                                if (economy != null)
+                                economy.depositPlayer(player.getName(), registerCost);
                                 player.sendMessage("Giving you back "+registerCost);
                             }
                         }
@@ -428,9 +437,7 @@ public class DeathTpPlus extends JavaPlugin{
             if (sender instanceof Player) {
                 Player player = (Player)sender;
 
-                if (player.hasPermission("deathtpplus.deaths")) {
-                    canUseCommand = true;
-                }
+                canUseCommand = permission.playerHas(player, "deathtpplus.deaths");
             }
 
             if (canUseCommand) {
@@ -515,9 +522,7 @@ public class DeathTpPlus extends JavaPlugin{
             if (sender instanceof Player) {
                 Player player = (Player)sender;
 
-                if (player.hasPermission("deathtpplus.kills")) {
-                    canUseCommand = true;
-                }
+                canUseCommand = permission.playerHas(player, "deathtpplus.kills");
             }
 
             if (canUseCommand) {
@@ -588,14 +593,10 @@ public class DeathTpPlus extends JavaPlugin{
         }
 
         else if (command.equals("streak")) {
-            // Todo ???
-            canUseCommand = true;
 
             if (sender instanceof Player) {
                 Player player = (Player)sender;
-                if (player.hasPermission("deathtpplus.streak")) {
-                    canUseCommand = true;
-                }
+                canUseCommand = permission.playerHas(player, "deathtpplus.streak");
             }
 
             if (canUseCommand) {
@@ -661,6 +662,12 @@ public class DeathTpPlus extends JavaPlugin{
 
 
                 }
+                else {
+                    return true;
+                }
+            }
+            else {
+                return true;
             }
 
         }
@@ -670,33 +677,23 @@ public class DeathTpPlus extends JavaPlugin{
     }
 
     public String convertSamloean(String convert) {
-        convert = convert.replace("&0", "�0");
-        convert = convert.replace("&1", "�1");
-        convert = convert.replace("&2", "�2");
-        convert = convert.replace("&3", "�3");
-        convert = convert.replace("&4", "�4");
-        convert = convert.replace("&5", "�5");
-        convert = convert.replace("&6", "�6");
-        convert = convert.replace("&7", "�7");
-        convert = convert.replace("&8", "�8");
-        convert = convert.replace("&9", "�9");
-        convert = convert.replace("&a", "�a");
-        convert = convert.replace("&b", "�b");
-        convert = convert.replace("&c", "�c");
-        convert = convert.replace("&d", "�d");
-        convert = convert.replace("&e", "�e");
-        convert = convert.replace("&f", "�f");
+        convert = convert.replace("&0", "§0");
+        convert = convert.replace("&1", "§1");
+        convert = convert.replace("&2", "§2");
+        convert = convert.replace("&3", "§3");
+        convert = convert.replace("&4", "§4");
+        convert = convert.replace("&5", "§5");
+        convert = convert.replace("&6", "§6");
+        convert = convert.replace("&7", "§7");
+        convert = convert.replace("&8", "§8");
+        convert = convert.replace("&9", "§9");
+        convert = convert.replace("&a", "§a");
+        convert = convert.replace("&b", "§b");
+        convert = convert.replace("&c", "§c");
+        convert = convert.replace("&d", "§d");
+        convert = convert.replace("&e", "§e");
+        convert = convert.replace("&f", "§f");
 
         return convert;
-    }
-
-
-    public Method getRegisterMethod(){
-        try{
-            return Methods.getMethod();
-        } catch(NoClassDefFoundError err){
-        } // ugly solution, I know ...
-        return null;
-
     }
 }
