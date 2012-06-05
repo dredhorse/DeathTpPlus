@@ -1,0 +1,183 @@
+* fixed messages to display only in certain worlds, v.3.9.11.2149
+* revertet workaround for experience exploit, v.3.9.10.2149
+* added workaround for unknown bukkit versions, again, v.3.9.9.2149
+* fixed expierience issues, v.3.9.7.2149
+* fixed worldheight issues, v.3.9.7.2149
+* fixed some issues with metrics, v.3.9.6.2149
+* added debug code, fixed an issue with iron golems, v.3.9.5.2149
+* updated to 1.2.5, fixed an issue with iron golems, v.3.9.4.2149
+* updated to 1.2.4, v. 3.9.3.2126
+* fixed issue with R7 / R8 and hopefully any other "bukkit" version without a version, v. 3.9.3.1986
+* fixed deathsign being empty, v. 3.9.3.1986
+* fixed tombs not updating, v. 3.9.3.1986
+* trying to fix tomb bug
+*  fixed a bug do to bukkit updates, 3.9.1.1986
+*  fixed a bug do to bukkit updates, 3.9.1.1986
+*  fixed a bug do to bukkit updates, 3.9.1.1986
+* Merge pull request #77 from macer1/master
+* Delete deathtpplus_new.var
+* Update to CraftBukkit 1.2 R0
+* 3.9.0.1986 R6
+* preparing move to 3.9.0.19xx
+* preparing move to 3.9.0.19xx
+* fixed an issue with utf-8, v 3.8.10.1818
+* fixed an issue with utf-8, v 3.8.10.1818
+* pushing some minor internal changes
+* fixed issue with teleporting, already implemented new height check, 3.8.9.1818
+* fixed issue with teleport into void, disabled teleporting into nether if configured to use highest block, 3.8.8.1818
+* last version
+* fixed issue with MAGMA_CUBE,  3.8.5.1818
+* fixed a bug when player had no tomb, added debug for deathlog, 3.8.4.1818
+* added wg dependencies
+* added worldguard region canBuild, 3.8.3.1818, close #69
+* Merge remote-tracking branch 'origin/master'
+* fixed issue with CB++, 3.8.2.1818, close #71
+* updated pom.xml to bukkit 1.1-R3
+* fixed skeletons not recogniced correctly, 3.8.1.1818, close #70
+* fixed an exploit with exp, 3.8.0.1818
+* added some messages from mog1255, 3.7.5.1818
+* add Magic and Poison Death causes and messages, 3.7.5.1818
+* implemented version 3 of metrics, incl tracking of deathtp, tombstone and tomb, 3.7.4.1818
+* fixed several issues with tombs, preparing new version, 3.7.3.1818
+* Merge pull request #68 from Belphemur/master
+* code clean Up
+* using the event to change the content of the sign and set the tomb.
+* since a Tomb will be only created from a SignChangeEvent, no need to update the first line with the player name after set it.
+* Using the event to change the content of the sign and adding the Tomb.
+* automatically putting the plugin.yml at the root of the jar using maven.
+* using a SyncTask to update the sign.
+* Some code clean Up.
+* updated to new bukkit event system
+* trying to fix issues with tomb not working correclty
+* trying to fix issues with tomb not working correclty
+* fixed case on PINGS class file name
+* fixed loophole where player suicide doesn't reset kill streak
+* added dynmap dependency to maven pom
+* fixed issue wolf and slime not recognized, ver 3.7.1.1597
+* fixed issue with Lockette Signs not at the right place, ver 3.7.0.1597
+* removed craftIRC for the moment, ver 3.6.6.1597
+* integrating Metrics from Hidendra, ver 3.6.5.1597
+* trying a fix for issue # 65, ver 3.6.4.1597
+* fixed displaying update available even if not true, close #63  ver. 3.6.2.1597
+* fixed NPE when player had tomb but was clicking a normal sign, close #61  ver. 3.6.1.1597
+* fixed NPE when Dynmap was not installed, sorry. ver. 3.6.0.1597
+* ver. 3.5.0.1597
+* fixed issue with " and double ' which was caused by switching to " 3.4.2.1597
+* ver. 3.4.1.1597 implemented close #58
+* preparing issue #58
+* preparing issue #58
+* added allow to keep all exp, close #57
+* finalized dynMap integration
+* ffirst try of dynmap integration added announcement for new version for players with deathtpplus.admin.version during login adn /dtpadmin version close #11  close #12  close #13
+* hopefully removed a NPE caused by essential, close #45
+* implemented allowTombAsTeleport, added admin comand to remove tomb, close #39
+* implemented showDeathNoticesOnConsole, close #53
+* implemented showDeathNotifyInDeathWorldOnly, close #56
+* implemented fully new versioning system, fixed missing correct permission for deathtp worldtravel. close #37
+* preparing new version system
+* integrated usage tracking, can be disabled by disabling checkForUpdate
+* preparing checkin procedure
+* preparing checkin procedure
+* preparing checkin procedure
+* removed backwards compability with old permissions, ver 3.4.1597, close # 22
+* added shouldOnlyCreateInAir option to help placeing DeathSigns and TombStones in better areas, close #27, close #52
+* switch creation of TombStone and DeathSign around so that DeathSign doesn't interfere with TombStone creation
+* switch creation of TombStone and DeathSign around so that DeathSign doesn't interfere with TombStone creation
+* what a crappy workaround for exp.. close #55
+* fixed displaying DeathType instead of DeathMessage on Signs, no issue for it... Expierence is broken though
+* changed ' to " in configs, also supports üöä , close #49, close #47
+* hopefully fixed the dropped exp bug, close #55
+* added missing mobs to getCreatureType util function
+* fixed weapon name for projectiles
+* updated pom.xml to match current state of codebase
+* corrected Version to 3.3.1597
+* corrected Version to 3.3.1597
+* Version 3.2.1597
+* Support for LWC  4, close #38
+* Fix Compass directions to use NewNorth, close #35
+* Remove payed message when amount is 0.0, close #42
+* moved messages from info to informational, renamed error logging to informational logging, close #43
+* fleshed out pom.xml a bit more
+* minor change to method name for isMultiKill
+* Merge branch 'master' of https://mung3r@github.com/dredhorse/DeathTpPlus.git
+* added multikill flag to kill streak event
+* up to 3.2.1597 using temporary version file fixed tp into void fixed mobarena spam and disabling of function (hopefully)
+* Update Resources/deathtpplus_temp.ver
+* Update Resources/deathtpplus_temp.ver
+* testing
+* removed unnecessary override annotations
+* fixed bug with unknown cause of death/deathtype
+* tried a bugfix
+* updated the "dev-build" to 3.2
+* v 3.2 fixed some bugs for tombs, implemented 1597 Close #6
+* v3.1 included Resources\3.1
+* preparing maven integration
+* preparing maven integration
+* reverted config version back to 3.0 for people trying out devbuilds
+* added MobArena Support, all Death related functions are disabled in an arena, Close #30
+* added option to teleport to save location instead of highestblock, code from Tele++, Close #31 Close #32
+* added option to not broadcast death messages in specific worlds, Close #18
+* added keepExpierenceOnQuickloot which will keep some experience, Close #20
+* added displayname config for broadcast messages, needs testing, close #17
+* minor fix, updated version on github for update
+* released 3.0
+* added missing ' in messages, added whitespace behind - in the death and tombmessages file, close #23
+* added new permissions and backwards compability (Close 21) also fixed a bug in the deathmessages config
+* added mung3r to  authors and made it nice with a method from multiverse-core
+* cleaned up the code a little
+* Updated config, Closes #10
+* Closes #3
+* updated some death and tomb messages
+* merged refactor branch back into master
+* changed to version 2.99 so that we can give out the "alpha"
+* changed plugin.yml for better non permission server support and made some fixes to the permissions
+* refactoring Tomb and TombStone, still some more work to do
+* refactoring Tomb and TombStone, old damageevent and loghowdied removed
+* 3.0 done... changes from Mung3r integrated and fixed, now looking at refactoring Tomb and TombStone
+* 3.0 done... changes from Mung3r integrated and fixed, now looking at refactoring Tomb and TombStone
+* integrating changed from mung3r
+* configuration separated into 3 files, config, deathmessages and tombmessages
+* splitting configuration in 3 files, config, deathmessages and tomb messages
+* bugs fixed... still refactoring
+* still refactoring and fixing bugs
+* neither deathlocation nor tombs are updating ;-(
+* added Tomb.. starting integration and refactoring
+* refactoring 60% done
+* refactoring 50% done
+* config itself should be done, now refactoring classes to new config
+* started refactoring, implemented config and logger class, now debugging config
+* changed DisplayName in most places to fix some issues with strange characters, v 2.03
+* fixed bug and spam, 2.02
+* Merge remote-tracking branch 'origin/master'
+* fixed bug and spam, 2.02
+* changed back to 2.01 till confirmation of bugfix
+* fixed bug, 2.02
+* fixed minor but, 2.01
+* changed version check url to master again.. 2.0 is done!, I hope
+* Merge commit cenopath branch
+* cleanup
+* added images
+* cleanup
+* finally added all changes from the pull request.. 2.0 is done!
+* integrated vault as additional economy provider, not using permission system atm..
+* integrated pull for master https://github.com/dredhorse/DeathTpPlus/pull/1#commits-pushed-db35b7c from mung3r
+* looks like only bukkit is sad is left
+* integrating tombstone 100% done, bugfixing now
+* integrating tombstone 30% done
+* on it's way to integrate a version of cenopath, 20% done
+* Merge commit Configuration Update, 1.94
+* refactoring on its way, 1,94
+* refactoring on its way, 1,93
+* Multiworld Support, 1.92
+* updated death issues to 1.8.1, 1.91
+* fixed classcastexception, 1.90a
+* updated to RB 1185, Register and Bukkit Perms
+* v1.86
+* 602 compadibility
+* added smart tp, removed /suicide
+* Added deathlog, fixed slime, fixed deathnotify false
+* Added CraftIRC support
+* added iConomy support
+* updated to use onCommand
+* added groupmanager support
+* first commit - version 1.72
