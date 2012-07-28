@@ -10,13 +10,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.simiancage.DeathTpPlus.DeathTpPlus;
 import org.simiancage.DeathTpPlus.common.DefaultLogger;
-import org.simiancage.DeathTpPlus.death.logs.DeathLog;
-import org.simiancage.DeathTpPlus.death.logs.DeathRecord;
-import org.simiancage.DeathTpPlus.death.logs.DeathRecord.DeathRecordType;
+import org.simiancage.DeathTpPlus.death.persistence.DeathRecordDao;
+import org.simiancage.DeathTpPlus.death.persistence.DeathRecord;
+import org.simiancage.DeathTpPlus.death.persistence.DeathRecord.DeathRecordType;
 
 public class ReportCommand implements CommandExecutor {
 	private static final int CMDS_PER_PAGE = 8;
-	private DeathLog deathLog;
+	private DeathRecordDao deathLog;
 	private DefaultLogger log;
 
 	public ReportCommand(DeathTpPlus plugin) {

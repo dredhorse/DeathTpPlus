@@ -1,4 +1,4 @@
-package org.simiancage.DeathTpPlus.tombstone.logs;
+package org.simiancage.DeathTpPlus.tombstone.persistence;
 
 import org.bukkit.block.Block;
 import org.simiancage.DeathTpPlus.common.DefaultLogger;

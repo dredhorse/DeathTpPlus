@@ -6,9 +6,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.simiancage.DeathTpPlus.DeathTpPlus;
 import org.simiancage.DeathTpPlus.common.DefaultLogger;
-import org.simiancage.DeathTpPlus.death.logs.DeathLog;
-import org.simiancage.DeathTpPlus.death.logs.DeathRecord;
-import org.simiancage.DeathTpPlus.death.logs.DeathRecord.DeathRecordType;
+import org.simiancage.DeathTpPlus.death.persistence.DeathRecordDao;
+import org.simiancage.DeathTpPlus.death.persistence.DeathRecord;
+import org.simiancage.DeathTpPlus.death.persistence.DeathRecord.DeathRecordType;
 
 /**
  * PluginName: DeathTpPlus
@@ -21,7 +21,7 @@ import org.simiancage.DeathTpPlus.death.logs.DeathRecord.DeathRecordType;
 public class KillsCommand implements CommandExecutor {
 
     private DefaultLogger log;
-    private DeathLog deathLog;
+    private DeathRecordDao deathLog;
 
     public KillsCommand(DeathTpPlus instance) {
         log = DefaultLogger.getLogger();

@@ -18,7 +18,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.simiancage.DeathTpPlus.common.DefaultLogger;
-import org.simiancage.DeathTpPlus.tombstone.logs.TombLog;
+import org.simiancage.DeathTpPlus.tombstone.persistence.TombLog;
 import org.simiancage.DeathTpPlus.tombstone.workers.TombWorker;
 
 import java.util.List;

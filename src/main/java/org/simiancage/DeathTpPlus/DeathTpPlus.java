@@ -49,10 +49,10 @@ import org.simiancage.DeathTpPlus.death.commands.StreakCommand;
 import org.simiancage.DeathTpPlus.death.commands.TopCommand;
 import org.simiancage.DeathTpPlus.death.listeners.EntityListener;
 import org.simiancage.DeathTpPlus.death.listeners.StreakListener;
-import org.simiancage.DeathTpPlus.death.logs.DeathLog;
-import org.simiancage.DeathTpPlus.death.logs.StreakLog;
+import org.simiancage.DeathTpPlus.death.persistence.DeathRecordDao;
+import org.simiancage.DeathTpPlus.death.persistence.StreakRecordDao;
 import org.simiancage.DeathTpPlus.teleport.commands.DeathTpCommand;
-import org.simiancage.DeathTpPlus.teleport.logs.DeathLocationLog;
+import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocationDao;
 import org.simiancage.DeathTpPlus.tombstone.TombMessages;
 import org.simiancage.DeathTpPlus.tombstone.TombStoneHelper;
 import org.simiancage.DeathTpPlus.tombstone.commands.AdminCommand;
@@ -103,12 +103,12 @@ public class DeathTpPlus extends JavaPlugin {
 	/**
 	 * Field description
 	 */
-	private static DeathLocationLog deathLocationLog;
+	private static DeathLocationDao deathLocationLog;
 
 	/**
 	 * Field description
 	 */
-	private static DeathLog deathLog;
+	private static DeathRecordDao deathLog;
 
 	/**
 	 * Field description
@@ -128,7 +128,7 @@ public class DeathTpPlus extends JavaPlugin {
 	/**
 	 * Field description
 	 */
-	private static StreakLog streakLog;
+	private static StreakRecordDao streakLog;
 
 	//~--- fields -------------------------------------------------------------
 
@@ -291,9 +291,9 @@ public class DeathTpPlus extends JavaPlugin {
 		tombMessages = TombMessages.getInstance();
 		tombMessages.setupTombMessages(plugin);
 		pluginPath = getDataFolder() + System.getProperty("file.separator");
-		deathLocationLog = new DeathLocationLog(this);
-		deathLog = new DeathLog(this);
-		streakLog = new StreakLog(this);
+		deathLocationLog = new DeathLocationDao(this);
+		deathLog = new DeathRecordDao(this);
+		streakLog = new StreakRecordDao(this);
 		tombStoneHelper = TombStoneHelper.getInstance();
 		pm = this.getServer().getPluginManager();
 
@@ -751,7 +751,7 @@ public class DeathTpPlus extends JavaPlugin {
 	 *
 	 * @return
 	 */
-	public static DeathLocationLog getDeathLocationLog() {
+	public static DeathLocationDao getDeathLocationLog() {
 		return deathLocationLog;
 	}
 
@@ -760,7 +760,7 @@ public class DeathTpPlus extends JavaPlugin {
 	 *
 	 * @return
 	 */
-	public static DeathLog getDeathLog() {
+	public static DeathRecordDao getDeathLog() {
 		return deathLog;
 	}
 
@@ -769,7 +769,7 @@ public class DeathTpPlus extends JavaPlugin {
 	 *
 	 * @return
 	 */
-	public static StreakLog getStreakLog() {
+	public static StreakRecordDao getStreakLog() {
 		return streakLog;
 	}
 

@@ -1,4 +1,4 @@
-package org.simiancage.DeathTpPlus.tombstone.logs;
+package org.simiancage.DeathTpPlus.tombstone.persistence;
 
 import java.io.Serializable;
 

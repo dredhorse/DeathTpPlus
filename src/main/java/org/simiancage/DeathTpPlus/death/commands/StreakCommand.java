@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.simiancage.DeathTpPlus.DeathTpPlus;
 import org.simiancage.DeathTpPlus.common.ConfigManager;
 import org.simiancage.DeathTpPlus.common.DefaultLogger;
-import org.simiancage.DeathTpPlus.death.logs.StreakRecord;
+import org.simiancage.DeathTpPlus.death.persistence.StreakRecord;
 
 /**
  * PluginName: DeathTpPlus

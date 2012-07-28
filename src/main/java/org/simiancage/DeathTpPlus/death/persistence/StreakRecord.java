@@ -1,4 +1,4 @@
-package org.simiancage.DeathTpPlus.death.logs;
+package org.simiancage.DeathTpPlus.death.persistence;
 
 import java.util.Calendar;
 import java.util.Date;

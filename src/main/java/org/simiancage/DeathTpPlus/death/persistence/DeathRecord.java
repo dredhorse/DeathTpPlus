@@ -1,4 +1,4 @@
-package org.simiancage.DeathTpPlus.death.logs;
+package org.simiancage.DeathTpPlus.death.persistence;
 
 /**
  * PluginName: DeathTpPlugin

@@ -1,4 +1,4 @@
-package org.simiancage.DeathTpPlus.death.logs;
+package org.simiancage.DeathTpPlus.death.persistence;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,13 +24,13 @@ import org.simiancage.DeathTpPlus.death.events.KillStreakEvent;
 
 /**
  * PluginName: DeathTpPlus
- * Class: StreakLog
+ * Class: StreakRecordDao
  * User: DonRedhorse
  * Date: 25.11.11
  * Time: 19:30
  */
 
-public class StreakLog implements Runnable {
+public class StreakRecordDao implements Runnable {
     private static final String STREAK_LOG_FILE = "streak.txt";
     private static final ConfigManager config = ConfigManager.getInstance();
     private static final DefaultLogger log = DefaultLogger.getLogger();
@@ -43,7 +43,7 @@ public class StreakLog implements Runnable {
     private Map<String, StreakRecord> streaks;
     private File streakLogFile;
 
-    public StreakLog(DeathTpPlus plugin) {
+    public StreakRecordDao(DeathTpPlus plugin) {
         streaks = new Hashtable<String, StreakRecord>();
         dataFolder = plugin.getDataFolder() + System.getProperty("file.separator");
         streakLogFile = new File(dataFolder, STREAK_LOG_FILE);

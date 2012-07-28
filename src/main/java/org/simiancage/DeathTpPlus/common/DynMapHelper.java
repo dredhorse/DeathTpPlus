@@ -14,8 +14,8 @@ import org.dynmap.markers.MarkerAPI;
 import org.dynmap.markers.MarkerIcon;
 import org.dynmap.markers.MarkerSet;
 import org.simiancage.DeathTpPlus.DeathTpPlus;
-import org.simiancage.DeathTpPlus.teleport.logs.DeathLocationRecord;
-import org.simiancage.DeathTpPlus.teleport.logs.DeathLocationLog;
+import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocationDao;
+import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocation;
 import org.simiancage.DeathTpPlus.tombstone.TombStoneHelper;
 import org.simiancage.DeathTpPlus.tombstone.models.Tomb;
 import org.simiancage.DeathTpPlus.tombstone.models.TombStoneBlock;
@@ -295,8 +295,8 @@ public class DynMapHelper {
 		/* Get current markers, by ID with location */
 		public Map<String, Location> getMarkers() {
 			HashMap<String, Location> map = new HashMap<String, Location>();
-			DeathLocationLog deathLocationLog = new DeathLocationLog(plugin);
-			HashMap<Integer, DeathLocationRecord> deathLocationsLog = deathLocationLog.getAllRecords();
+			DeathLocationDao deathLocationLog = new DeathLocationDao(plugin);
+			HashMap<Integer, DeathLocation> deathLocationsLog = deathLocationLog.getAllRecords();
 			if (!deathLocationsLog.isEmpty()) {
 				String player;
 				Location location;

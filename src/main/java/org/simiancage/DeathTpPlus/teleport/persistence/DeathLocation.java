@@ -1,31 +1,31 @@
-package org.simiancage.DeathTpPlus.teleport.logs;
+package org.simiancage.DeathTpPlus.teleport.persistence;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 /**
  * PluginName: DeathTpPlus
- * Class: DeathLocationRecord
+ * Class: DeathLocation
  * User: DonRedhorse
  * Date: 25.11.11
  * Time: 19:39
  */
 
-public class DeathLocationRecord {
+public class DeathLocation {
     private String playerName;
     private Location location;
     private String worldName;
 
-    public DeathLocationRecord() {
+    public DeathLocation() {
     }
 
-    public DeathLocationRecord(Player player) {
+    public DeathLocation(Player player) {
         this.playerName = player.getName();
         this.location = player.getLocation();
         this.worldName = player.getWorld().getName();
     }
 
-    public DeathLocationRecord(String record) {
+    public DeathLocation(String record) {
         if (record != null) {
             String[] parts = record.split(":");
 

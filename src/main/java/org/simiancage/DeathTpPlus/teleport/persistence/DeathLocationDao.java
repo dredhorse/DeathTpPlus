@@ -1,4 +1,4 @@
-package org.simiancage.DeathTpPlus.teleport.logs;
+package org.simiancage.DeathTpPlus.teleport.persistence;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -19,25 +19,25 @@ import org.simiancage.DeathTpPlus.death.DeathDetail;
 
 /**
  * PluginName: DeathTpPlus
- * Class: DeathLocationLog
+ * Class: DeathLocationDao
  * User: DonRedhorse
  * Date: 25.11.11
  * Time: 19:25
  */
 
-public class DeathLocationLog implements Runnable {
+public class DeathLocationDao implements Runnable {
     private static final String LOCATION_LOG_FILE = "locs.txt";
     private static final DefaultLogger log = DefaultLogger.getLogger();
     private static final String CHARSET = "UTF-8";
     private static final long SAVE_DELAY = 2 * (60 * 20); // 2 minutes
     private static final long SAVE_PERIOD = 3 * (60 * 20); // 3 minutes
 
-    private Map<String, DeathLocationRecord> deathLocations;
+    private Map<String, DeathLocation> deathLocations;
     private String dataFolder;
     private File deathLocationLogFile;
 
-    public DeathLocationLog(DeathTpPlus plugin) {
-        deathLocations = new Hashtable<String, DeathLocationRecord>();
+    public DeathLocationDao(DeathTpPlus plugin) {
+        deathLocations = new Hashtable<String, DeathLocation>();
         dataFolder = plugin.getDataFolder() + System.getProperty("file.separator");
         deathLocationLogFile = new File(dataFolder, LOCATION_LOG_FILE);
         if (!deathLocationLogFile.exists()) {
@@ -59,7 +59,7 @@ public class DeathLocationLog implements Runnable {
             String line = null;
 
             while ((line = bufferedReader.readLine()) != null) {
-                DeathLocationRecord deathLocation = new DeathLocationRecord(line);
+                DeathLocation deathLocation = new DeathLocation(line);
                 deathLocations.put(deathLocation.getPlayerName(), deathLocation);
             }
 
@@ -74,7 +74,7 @@ public class DeathLocationLog implements Runnable {
         try {
             BufferedWriter deathLocationLogWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(deathLocationLogFile), CHARSET));
 
-            for (DeathLocationRecord deathLocation : deathLocations.values()) {
+            for (DeathLocation deathLocation : deathLocations.values()) {
                 deathLocationLogWriter.write(deathLocation.toString());
                 deathLocationLogWriter.newLine();
             }
@@ -86,21 +86,21 @@ public class DeathLocationLog implements Runnable {
         }
     }
 
-    public DeathLocationRecord getRecord(String playerName) {
+    public DeathLocation getRecord(String playerName) {
         return deathLocations.get(playerName);
     }
 
-    public HashMap<Integer, DeathLocationRecord> getAllRecords() {
+    public HashMap<Integer, DeathLocation> getAllRecords() {
         int i = 0;
-        HashMap<Integer, DeathLocationRecord> deathLocationRecordList = new HashMap<Integer, DeathLocationRecord>();
-        for (DeathLocationRecord record : deathLocations.values()) {
+        HashMap<Integer, DeathLocation> deathLocationRecordList = new HashMap<Integer, DeathLocation>();
+        for (DeathLocation record : deathLocations.values()) {
             deathLocationRecordList.put(i, record);
         }
         return deathLocationRecordList;
     }
 
     public void setRecord(DeathDetail deathDetail) {
-        deathLocations.put(deathDetail.getPlayer().getName(), new DeathLocationRecord(deathDetail.getPlayer()));
+        deathLocations.put(deathDetail.getPlayer().getName(), new DeathLocation(deathDetail.getPlayer()));
     }
 
     @Override

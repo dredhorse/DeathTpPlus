@@ -22,9 +22,9 @@ import org.simiancage.DeathTpPlus.common.utils.MessageUtil;
 import org.simiancage.DeathTpPlus.death.DeathDetail;
 import org.simiancage.DeathTpPlus.death.DeathMessages;
 import org.simiancage.DeathTpPlus.death.listeners.EntityListener;
-import org.simiancage.DeathTpPlus.death.logs.DeathLog;
-import org.simiancage.DeathTpPlus.death.logs.StreakLog;
-import org.simiancage.DeathTpPlus.teleport.logs.DeathLocationLog;
+import org.simiancage.DeathTpPlus.death.persistence.DeathRecordDao;
+import org.simiancage.DeathTpPlus.death.persistence.StreakRecordDao;
+import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocationDao;
 import org.simiancage.DeathTpPlus.tombstone.TombMessages;
 import org.simiancage.DeathTpPlus.tombstone.TombStoneHelper;
 import org.simiancage.DeathTpPlus.tombstone.models.Tomb;
@@ -64,12 +64,12 @@ public class EntityDeathHandler {
 	/**
 	 * Field description
 	 */
-	private DeathLocationLog deathLocationsLog;
+	private DeathLocationDao deathLocationsLog;
 
 	/**
 	 * Field description
 	 */
-	private DeathLog deathLog;
+	private DeathRecordDao deathLog;
 
 	/**
 	 * Field description
@@ -84,7 +84,7 @@ public class EntityDeathHandler {
 	/**
 	 * Field description
 	 */
-	private StreakLog streakLog;
+	private StreakRecordDao streakLog;
 
 	/**
 	 * Field description

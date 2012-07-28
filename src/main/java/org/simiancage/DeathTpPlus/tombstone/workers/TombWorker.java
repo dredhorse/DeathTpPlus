@@ -15,8 +15,8 @@ import org.bukkit.entity.Player;
 import org.simiancage.DeathTpPlus.DeathTpPlus;
 import org.simiancage.DeathTpPlus.common.ConfigManager;
 import org.simiancage.DeathTpPlus.common.DefaultLogger;
-import org.simiancage.DeathTpPlus.tombstone.TombSaveSystem;
 import org.simiancage.DeathTpPlus.tombstone.models.Tomb;
+import org.simiancage.DeathTpPlus.tombstone.persistence.TombSaveSystem;
 
 import java.util.HashMap;
 

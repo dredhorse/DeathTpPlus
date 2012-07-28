@@ -10,8 +10,8 @@ import org.simiancage.DeathTpPlus.DeathTpPlus;
 import org.simiancage.DeathTpPlus.common.ConfigManager;
 import org.simiancage.DeathTpPlus.common.DefaultLogger;
 import org.simiancage.DeathTpPlus.teleport.TeleportHelper;
-import org.simiancage.DeathTpPlus.teleport.logs.DeathLocationRecord;
-import org.simiancage.DeathTpPlus.teleport.logs.DeathLocationLog;
+import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocationDao;
+import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocation;
 
 /**
  * PluginName: DeathTpPlus
@@ -26,7 +26,7 @@ public class DeathTpCommand implements CommandExecutor {
     private DeathTpPlus plugin;
     private DefaultLogger log;
     private ConfigManager config;
-    private DeathLocationLog deathLocationLog;
+    private DeathLocationDao deathLocationLog;
 
     /**
      * List of blocks which are normally save to teleport into
@@ -67,7 +67,7 @@ public class DeathTpCommand implements CommandExecutor {
                 }
 
 
-                DeathLocationRecord locationRecord = deathLocationLog.getRecord(player.getName());
+                DeathLocation locationRecord = deathLocationLog.getRecord(player.getName());
 
                 if (locationRecord != null) {
                     World deathWorld = player.getServer().getWorld(locationRecord.getWorldName());

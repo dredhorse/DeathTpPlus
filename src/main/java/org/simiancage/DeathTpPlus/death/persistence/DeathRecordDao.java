@@ -1,4 +1,4 @@
-package org.simiancage.DeathTpPlus.death.logs;
+package org.simiancage.DeathTpPlus.death.persistence;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,14 +18,14 @@ import org.bukkit.Bukkit;
 import org.simiancage.DeathTpPlus.DeathTpPlus;
 import org.simiancage.DeathTpPlus.common.DefaultLogger;
 import org.simiancage.DeathTpPlus.death.DeathDetail;
-import org.simiancage.DeathTpPlus.death.logs.DeathRecord.DeathRecordType;
+import org.simiancage.DeathTpPlus.death.persistence.DeathRecord.DeathRecordType;
 
 /**
- * PluginName: DeathTpPLus Class: DeathLog User: DonRedhorse Date: 25.11.11
+ * PluginName: DeathTpPLus Class: DeathRecordDao User: DonRedhorse Date: 25.11.11
  * Time: 19:19
  */
 
-public class DeathLog implements Runnable {
+public class DeathRecordDao implements Runnable {
     private static final String DEATH_LOG_FILE = "deathlog.txt";
     private static final String DEATH_LOG_TMP = "deathlog.tmp";
     private static final String CHARSET = "UTF-8";
@@ -37,7 +37,7 @@ public class DeathLog implements Runnable {
     private String dataFolder;
     private File deathLogFile;
 
-    public DeathLog(DeathTpPlus plugin) {
+    public DeathRecordDao(DeathTpPlus plugin) {
         deaths = new Hashtable<String, DeathRecord>();
         dataFolder = plugin.getDataFolder() + System.getProperty("file.separator");
         deathLogFile = new File(dataFolder, DEATH_LOG_FILE);

@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.simiancage.DeathTpPlus.DeathTpPlus;
 import org.simiancage.DeathTpPlus.common.ConfigManager;
 import org.simiancage.DeathTpPlus.common.DefaultLogger;
-import org.simiancage.DeathTpPlus.teleport.logs.DeathLocationRecord;
+import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -114,7 +114,7 @@ public class TeleportHelper {
 
 
 	// Code from Tele++
-	public Location saveDeathLocation(DeathLocationRecord locationRecord, World world) {
+	public Location saveDeathLocation(DeathLocation locationRecord, World world) {
 		log.debug("world", world);
 		double x = locationRecord.getLocation().getBlockX();
 		double y = locationRecord.getLocation().getBlockY();
@@ -183,7 +183,7 @@ public class TeleportHelper {
 		return canGoBetween;
 	}
 
-	public Location findTeleportLocation(DeathLocationRecord locationRecord, Player player) {
+	public Location findTeleportLocation(DeathLocation locationRecord, Player player) {
 
 		log.debug("locationRecord", locationRecord);
 		Location deathLocation = locationRecord.getLocation();

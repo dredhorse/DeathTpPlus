@@ -13,8 +13,8 @@ import org.simiancage.DeathTpPlus.DeathTpPlus;
 import org.simiancage.DeathTpPlus.common.ConfigManager;
 import org.simiancage.DeathTpPlus.common.DefaultLogger;
 import org.simiancage.DeathTpPlus.teleport.TeleportHelper;
-import org.simiancage.DeathTpPlus.teleport.logs.DeathLocationRecord;
-import org.simiancage.DeathTpPlus.teleport.logs.DeathLocationLog;
+import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocationDao;
+import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocation;
 import org.simiancage.DeathTpPlus.tombstone.TombStoneHelper;
 import org.simiancage.DeathTpPlus.tombstone.models.Tomb;
 import org.simiancage.DeathTpPlus.tombstone.models.TombStoneBlock;
@@ -35,7 +35,7 @@ public class PlayerInteractHandler {
     private DeathTpPlus plugin;
     private TombWorker tombWorker = TombWorker.getInstance();
     private TombStoneHelper tombStoneHelper;
-    private DeathLocationLog deathLocationLog;
+    private DeathLocationDao deathLocationLog;
 
 
     public PlayerInteractHandler(DeathTpPlus plugin) {
@@ -172,7 +172,7 @@ public class PlayerInteractHandler {
         if (tomb.hasSign(b)) {
             TeleportHelper teleportHelper = new TeleportHelper(plugin);
             String thisWorld = player.getWorld().getName();
-            DeathLocationRecord locationRecord = deathLocationLog.getRecord(player.getName());
+            DeathLocation locationRecord = deathLocationLog.getRecord(player.getName());
             if (locationRecord != null) {
                 World deathWorld = player.getServer().getWorld(locationRecord.getWorldName());
                 if (!teleportHelper.canGoBetween(thisWorld, deathWorld, player)) {
