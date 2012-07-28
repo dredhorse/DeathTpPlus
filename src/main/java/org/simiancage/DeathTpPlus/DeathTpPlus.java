@@ -15,7 +15,7 @@ package org.simiancage.DeathTpPlus;
  * Cenopath - A Dead Man's Chest plugin for Bukkit
  * By Jim Drey (Southpaw018) <moof@moofit.com>
  * and material from
- * Tomb a plugin from Belphemur https://github.com/Belphemur/TombDTP
+ * Tomb a plugin from Belphemur https://github.com/Belphemur/Tomb
  * Original Copyright (C) of DeathTp 2011 Steven "Drakia" Scott <Drakia@Gmail.com>
  */
 
@@ -36,17 +36,36 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dynmap.DynmapAPI;
 import org.getspout.spoutapi.Spout;
-import org.simiancage.DeathTpPlus.commands.*;
-import org.simiancage.DeathTpPlus.helpers.*;
-import org.simiancage.DeathTpPlus.listeners.*;
-import org.simiancage.DeathTpPlus.logs.DeathLocationsLogDTP;
-import org.simiancage.DeathTpPlus.logs.DeathLogDTP;
-import org.simiancage.DeathTpPlus.logs.StreakLogDTP;
-import org.simiancage.DeathTpPlus.workers.TombStoneWorkerDTP;
-import org.simiancage.DeathTpPlus.workers.TombWorkerDTP;
+import org.simiancage.DeathTpPlus.common.ConfigManager;
+import org.simiancage.DeathTpPlus.common.DynMapHelper;
+import org.simiancage.DeathTpPlus.common.DefaultLogger;
+import org.simiancage.DeathTpPlus.common.Metrics;
+import org.simiancage.DeathTpPlus.common.listeners.ServerListener;
+import org.simiancage.DeathTpPlus.death.DeathMessages;
+import org.simiancage.DeathTpPlus.death.commands.DeathsCommand;
+import org.simiancage.DeathTpPlus.death.commands.KillsCommand;
+import org.simiancage.DeathTpPlus.death.commands.ReportCommand;
+import org.simiancage.DeathTpPlus.death.commands.StreakCommand;
+import org.simiancage.DeathTpPlus.death.commands.TopCommand;
+import org.simiancage.DeathTpPlus.death.listeners.EntityListener;
+import org.simiancage.DeathTpPlus.death.listeners.StreakListener;
+import org.simiancage.DeathTpPlus.death.logs.DeathLog;
+import org.simiancage.DeathTpPlus.death.logs.StreakLog;
+import org.simiancage.DeathTpPlus.teleport.commands.DeathTpCommand;
+import org.simiancage.DeathTpPlus.teleport.logs.DeathLocationLog;
+import org.simiancage.DeathTpPlus.tombstone.TombMessages;
+import org.simiancage.DeathTpPlus.tombstone.TombStoneHelper;
+import org.simiancage.DeathTpPlus.tombstone.commands.AdminCommand;
+import org.simiancage.DeathTpPlus.tombstone.commands.FindCommand;
+import org.simiancage.DeathTpPlus.tombstone.commands.ListCommand;
+import org.simiancage.DeathTpPlus.tombstone.commands.ResetCommand;
+import org.simiancage.DeathTpPlus.tombstone.commands.TimeCommand;
+import org.simiancage.DeathTpPlus.tombstone.listeners.BlockListener;
+import org.simiancage.DeathTpPlus.tombstone.listeners.PlayerListener;
+import org.simiancage.DeathTpPlus.tombstone.workers.TombStoneWorker;
+import org.simiancage.DeathTpPlus.tombstone.workers.TombWorker;
 import org.yi.acru.bukkit.Lockette.Lockette;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -84,12 +103,12 @@ public class DeathTpPlus extends JavaPlugin {
 	/**
 	 * Field description
 	 */
-	private static DeathLocationsLogDTP deathLocationLog;
+	private static DeathLocationLog deathLocationLog;
 
 	/**
 	 * Field description
 	 */
-	private static DeathLogDTP deathLog;
+	private static DeathLog deathLog;
 
 	/**
 	 * Field description
@@ -109,7 +128,7 @@ public class DeathTpPlus extends JavaPlugin {
 	/**
 	 * Field description
 	 */
-	private static StreakLogDTP streakLog;
+	private static StreakLog streakLog;
 
 	//~--- fields -------------------------------------------------------------
 
@@ -177,7 +196,7 @@ public class DeathTpPlus extends JavaPlugin {
 	/**
 	 * Field description
 	 */
-	private ConfigDTP config;
+	private ConfigManager config;
 
 	/**
 	 * Field description
@@ -187,12 +206,12 @@ public class DeathTpPlus extends JavaPlugin {
 	/**
 	 * Field description
 	 */
-	private DeathMessagesDTP deathMessages;
+	private DeathMessages deathMessages;
 
 	/**
 	 * Field description
 	 */
-	private DynMapHelperDTP dynMapHelperDTP;
+	private DynMapHelper dynMapHelper;
 
 	/**
 	 * Field description
@@ -207,7 +226,7 @@ public class DeathTpPlus extends JavaPlugin {
 	/**
 	 * Field description
 	 */
-	private LoggerDTP log;
+	private DefaultLogger log;
 
 	/**
 	 * Field description
@@ -222,12 +241,12 @@ public class DeathTpPlus extends JavaPlugin {
 	/**
 	 * Field description
 	 */
-	private TombMessagesDTP tombMessages;
+	private TombMessages tombMessages;
 
 	/**
 	 * Field description
 	 */
-	private TombStoneHelperDTP tombStoneHelper;
+	private TombStoneHelper tombStoneHelper;
 
 	private WorldGuardPlugin worldGuardPlugin;
 
@@ -248,7 +267,7 @@ public class DeathTpPlus extends JavaPlugin {
 		}
 
 		if (config.isEnableTomb()) {
-			TombWorkerDTP.getInstance().save();
+			TombWorker.getInstance().save();
 			server.getScheduler().cancelTasks(this);
 		}
 
@@ -264,28 +283,25 @@ public class DeathTpPlus extends JavaPlugin {
 	 */
 	public void onEnable() {
 		instance = this;
-		log = LoggerDTP.getInstance(this);
-		config = ConfigDTP.getInstance();
+		log = DefaultLogger.getInstance(this);
+		config = ConfigManager.getInstance();
 		config.setupConfig(configuration, plugin);
-		deathMessages = DeathMessagesDTP.getInstance();
+		deathMessages = DeathMessages.getInstance();
 		deathMessages.setupDeathMessages(plugin);
-		tombMessages = TombMessagesDTP.getInstance();
+		tombMessages = TombMessages.getInstance();
 		tombMessages.setupTombMessages(plugin);
 		pluginPath = getDataFolder() + System.getProperty("file.separator");
-		deathLocationLog = new DeathLocationsLogDTP(this);
-		deathLog = new DeathLogDTP(this);
-		streakLog = new StreakLogDTP(this);
-		tombStoneHelper = TombStoneHelperDTP.getInstance();
+		deathLocationLog = new DeathLocationLog(this);
+		deathLog = new DeathLog(this);
+		streakLog = new StreakLog(this);
+		tombStoneHelper = TombStoneHelper.getInstance();
 		pm = this.getServer().getPluginManager();
 
-//      Create the pluginmanager pm.
-		PluginManager pm = getServer().getPluginManager();
-
 //      register entityListener
-		Bukkit.getPluginManager().registerEvents(new EntityListenerDTP(this), this);
-		Bukkit.getPluginManager().registerEvents(new PlayerListenerDTP(this), this);
-		Bukkit.getPluginManager().registerEvents(new BlockListenerDTP(this), this);
-		Bukkit.getPluginManager().registerEvents(new StreakListenerDTP(this), this);
+		Bukkit.getPluginManager().registerEvents(new EntityListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new BlockListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new StreakListener(this), this);
 
 		// register entityListener for Enable Tombstone or Tomb
 		if (config.isEnableTombStone() || config.isEnableTomb()) {
@@ -299,12 +315,12 @@ public class DeathTpPlus extends JavaPlugin {
 			// ToDo check if this is really needed
 			// pm.registerEvent(Event.Type.WORLD_SAVE, worldSaveListener, Priority.Normal, this);
 			server = getServer();
-			TombWorkerDTP.getInstance().setPluginInstance(this);
-			TombWorkerDTP.getInstance().load();
+			TombWorker.getInstance().setPluginInstance(this);
+			TombWorker.getInstance().load();
 		}
 
 		// Register Server Listener
-		Bukkit.getPluginManager().registerEvents(new ServerListenerDTP(this), this);
+		Bukkit.getPluginManager().registerEvents(new ServerListener(this), this);
 
 		// craftirc
 		Plugin checkCraftIRC = this.getServer().getPluginManager().getPlugin("CraftIRC");
@@ -325,7 +341,7 @@ public class DeathTpPlus extends JavaPlugin {
 
 		// starting Removal Thread
 		if (config.isRemoveTombStoneSecurity() || config.isRemoveTombStone()) {
-			getServer().getScheduler().scheduleSyncRepeatingTask(this, new TombStoneWorkerDTP(plugin), 0L,
+			getServer().getScheduler().scheduleSyncRepeatingTask(this, new TombStoneWorker(plugin), 0L,
 					100L);
 		}
 
@@ -342,10 +358,10 @@ public class DeathTpPlus extends JavaPlugin {
 	 */
 	private void metrics() {
 		try {
-			MetricsDTP metrics = new MetricsDTP();
+			Metrics metrics = new Metrics();
 
 			// adding plotter DeathTpPlus
-			metrics.addCustomData(plugin, new MetricsDTP.Plotter() {
+			metrics.addCustomData(plugin, new Metrics.Plotter() {
 				@Override
 				public String getColumnName() {
 					return "DeathTP enabled";
@@ -364,7 +380,7 @@ public class DeathTpPlus extends JavaPlugin {
 			});
 
 			// adding plotter TombStone
-			metrics.addCustomData(plugin, new MetricsDTP.Plotter() {
+			metrics.addCustomData(plugin, new Metrics.Plotter() {
 				@Override
 				public String getColumnName() {
 					return "TombStone enabled";
@@ -383,7 +399,7 @@ public class DeathTpPlus extends JavaPlugin {
 			});
 
 			// adding plotter Tomb
-			metrics.addCustomData(plugin, new MetricsDTP.Plotter() {
+			metrics.addCustomData(plugin, new Metrics.Plotter() {
 				@Override
 				public String getColumnName() {
 					return "Tomb enabled";
@@ -435,23 +451,10 @@ public class DeathTpPlus extends JavaPlugin {
 
 	//~--- methods ------------------------------------------------------------
 
-	/**
-	 * Method description
-	 *
-	 * @param file
-	 */
-	private void CreateDefaultFile(File file) {
-		try {
-			file.createNewFile();
-		} catch (IOException e) {
-			log.warning("Cannot create file " + file.getPath() + "/" + file.getName());
-		}
-	}
-
 	/*
-			  *    Check if a plugin is loaded/enabled already. Returns the plugin if so,
-			  *    null otherwise
-			  */
+     *    Check if a plugin is loaded/enabled already. Returns the plugin if so,
+     *    null otherwise
+     */
 
 	/**
 	 * Method description
@@ -557,8 +560,8 @@ public class DeathTpPlus extends JavaPlugin {
 	 *
 	 * @return
 	 */
-	public DynMapHelperDTP getDynMapHelperDTP() {
-		return dynMapHelperDTP;
+	public DynMapHelper getDynMapHelper() {
+		return dynMapHelper;
 	}
 
 	//~--- set methods --------------------------------------------------------
@@ -566,10 +569,10 @@ public class DeathTpPlus extends JavaPlugin {
 	/**
 	 * Method description
 	 *
-	 * @param dynMapHelperDTP
+	 * @param dynMapHelper
 	 */
-	public void setDynMapHelperDTP(DynMapHelperDTP dynMapHelperDTP) {
-		this.dynMapHelperDTP = dynMapHelperDTP;
+	public void setDynMapHelper(DynMapHelper dynMapHelper) {
+		this.dynMapHelper = dynMapHelper;
 	}
 
 	/**
@@ -748,7 +751,7 @@ public class DeathTpPlus extends JavaPlugin {
 	 *
 	 * @return
 	 */
-	public static DeathLocationsLogDTP getDeathLocationLog() {
+	public static DeathLocationLog getDeathLocationLog() {
 		return deathLocationLog;
 	}
 
@@ -757,7 +760,7 @@ public class DeathTpPlus extends JavaPlugin {
 	 *
 	 * @return
 	 */
-	public static DeathLogDTP getDeathLog() {
+	public static DeathLog getDeathLog() {
 		return deathLog;
 	}
 
@@ -766,7 +769,7 @@ public class DeathTpPlus extends JavaPlugin {
 	 *
 	 * @return
 	 */
-	public static StreakLogDTP getStreakLog() {
+	public static StreakLog getStreakLog() {
 		return streakLog;
 	}
 
@@ -834,17 +837,17 @@ public class DeathTpPlus extends JavaPlugin {
 	 * Method description
 	 */
 	private void addCommands() {
-		getCommand("dtplist").setExecutor(new ListCommandDTP(this));
-		getCommand("dtpfind").setExecutor(new FindCommandDTP(this));
-		getCommand("dtptime").setExecutor(new TimeCommandDTP(this));
-		getCommand("dtpreset").setExecutor(new ResetCommandDTP(this));
-		getCommand("dtpadmin").setExecutor(new AdminCommandDTP(this));
-		getCommand("deathtp").setExecutor(new DeathtpCommandDTP(this));
-		getCommand("deaths").setExecutor(new DeathsCommandDTP(this));
-		getCommand("kills").setExecutor(new KillsCommandDTP(this));
-		getCommand("streak").setExecutor(new StreakCommandDTP(this));
-		getCommand("report").setExecutor(new ReportCommandDTP(this));
-		getCommand("top").setExecutor(new TopCommandDTP(this));
+		getCommand("dtplist").setExecutor(new ListCommand(this));
+		getCommand("dtpfind").setExecutor(new FindCommand(this));
+		getCommand("dtptime").setExecutor(new TimeCommand(this));
+		getCommand("dtpreset").setExecutor(new ResetCommand(this));
+		getCommand("dtpadmin").setExecutor(new AdminCommand(this));
+		getCommand("deathtp").setExecutor(new DeathTpCommand(this));
+		getCommand("deaths").setExecutor(new DeathsCommand(this));
+		getCommand("kills").setExecutor(new KillsCommand(this));
+		getCommand("streak").setExecutor(new StreakCommand(this));
+		getCommand("report").setExecutor(new ReportCommand(this));
+		getCommand("top").setExecutor(new TopCommand(this));
 	}
 
 	//~--- get methods --------------------------------------------------------
