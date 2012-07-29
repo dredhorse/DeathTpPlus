@@ -1,4 +1,4 @@
-package org.simiancage.DeathTpPlus.tombstone.persistence;
+package org.simiancage.DeathTpPlus.tomb.persistence;
 
 /**
  * PluginName: ${plugin}
@@ -8,7 +8,7 @@ package org.simiancage.DeathTpPlus.tombstone.persistence;
  * Time: 20:39
  */
 
-import org.simiancage.DeathTpPlus.tombstone.models.Tomb;
+import org.simiancage.DeathTpPlus.tomb.models.Tomb;
 
 import java.io.*;
 import java.util.HashMap;

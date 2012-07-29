@@ -16,10 +16,10 @@ import org.dynmap.markers.MarkerSet;
 import org.simiancage.DeathTpPlus.DeathTpPlus;
 import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocationDao;
 import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocation;
-import org.simiancage.DeathTpPlus.tombstone.TombStoneHelper;
-import org.simiancage.DeathTpPlus.tombstone.models.Tomb;
-import org.simiancage.DeathTpPlus.tombstone.models.TombStoneBlock;
-import org.simiancage.DeathTpPlus.tombstone.workers.TombWorker;
+import org.simiancage.DeathTpPlus.tomb.TombStoneHelper;
+import org.simiancage.DeathTpPlus.tomb.models.Tomb;
+import org.simiancage.DeathTpPlus.tomb.models.TombStoneBlock;
+import org.simiancage.DeathTpPlus.tomb.workers.TombWorker;
 
 import java.io.File;
 import java.io.FileNotFoundException;

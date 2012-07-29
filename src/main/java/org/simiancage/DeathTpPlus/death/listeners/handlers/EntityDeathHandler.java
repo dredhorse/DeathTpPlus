@@ -25,11 +25,11 @@ import org.simiancage.DeathTpPlus.death.listeners.EntityListener;
 import org.simiancage.DeathTpPlus.death.persistence.DeathRecordDao;
 import org.simiancage.DeathTpPlus.death.persistence.StreakRecordDao;
 import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocationDao;
-import org.simiancage.DeathTpPlus.tombstone.TombMessages;
-import org.simiancage.DeathTpPlus.tombstone.TombStoneHelper;
-import org.simiancage.DeathTpPlus.tombstone.models.Tomb;
-import org.simiancage.DeathTpPlus.tombstone.models.TombStoneBlock;
-import org.simiancage.DeathTpPlus.tombstone.workers.TombWorker;
+import org.simiancage.DeathTpPlus.tomb.TombMessages;
+import org.simiancage.DeathTpPlus.tomb.TombStoneHelper;
+import org.simiancage.DeathTpPlus.tomb.models.Tomb;
+import org.simiancage.DeathTpPlus.tomb.models.TombStoneBlock;
+import org.simiancage.DeathTpPlus.tomb.workers.TombWorker;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

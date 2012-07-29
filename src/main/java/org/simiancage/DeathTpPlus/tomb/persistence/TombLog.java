@@ -1,8 +1,8 @@
-package org.simiancage.DeathTpPlus.tombstone.persistence;
+package org.simiancage.DeathTpPlus.tomb.persistence;
 
 import org.bukkit.block.Block;
 import org.simiancage.DeathTpPlus.common.DefaultLogger;
-import org.simiancage.DeathTpPlus.tombstone.models.Tomb;
+import org.simiancage.DeathTpPlus.tomb.models.Tomb;
 
 import java.io.Serializable;
 import java.util.ArrayList;

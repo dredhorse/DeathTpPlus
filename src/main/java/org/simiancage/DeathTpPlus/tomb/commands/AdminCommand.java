@@ -1,4 +1,4 @@
-package org.simiancage.DeathTpPlus.tombstone.commands;
+package org.simiancage.DeathTpPlus.tomb.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -8,11 +8,11 @@ import org.simiancage.DeathTpPlus.DeathTpPlus;
 import org.simiancage.DeathTpPlus.common.ConfigManager;
 import org.simiancage.DeathTpPlus.common.DefaultLogger;
 import org.simiancage.DeathTpPlus.death.DeathMessages;
-import org.simiancage.DeathTpPlus.tombstone.TombMessages;
-import org.simiancage.DeathTpPlus.tombstone.TombStoneHelper;
-import org.simiancage.DeathTpPlus.tombstone.models.Tomb;
-import org.simiancage.DeathTpPlus.tombstone.models.TombStoneBlock;
-import org.simiancage.DeathTpPlus.tombstone.workers.TombWorker;
+import org.simiancage.DeathTpPlus.tomb.TombMessages;
+import org.simiancage.DeathTpPlus.tomb.TombStoneHelper;
+import org.simiancage.DeathTpPlus.tomb.models.Tomb;
+import org.simiancage.DeathTpPlus.tomb.models.TombStoneBlock;
+import org.simiancage.DeathTpPlus.tomb.workers.TombWorker;
 
 import java.util.ArrayList;
 

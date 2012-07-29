@@ -1,4 +1,4 @@
-package org.simiancage.DeathTpPlus.tombstone.commands;
+package org.simiancage.DeathTpPlus.tomb.commands;
 
 /**
  * PluginName: DeathTpPlus
@@ -13,8 +13,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.simiancage.DeathTpPlus.DeathTpPlus;
 import org.simiancage.DeathTpPlus.common.DefaultLogger;
-import org.simiancage.DeathTpPlus.tombstone.TombStoneHelper;
-import org.simiancage.DeathTpPlus.tombstone.models.TombStoneBlock;
+import org.simiancage.DeathTpPlus.tomb.TombStoneHelper;
+import org.simiancage.DeathTpPlus.tomb.models.TombStoneBlock;
 
 import java.util.ArrayList;
 

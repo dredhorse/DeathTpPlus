@@ -1,11 +1,11 @@
-package org.simiancage.DeathTpPlus.tombstone.listeners.handlers;
+package org.simiancage.DeathTpPlus.tomb.listeners.handlers;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 import org.simiancage.DeathTpPlus.common.ConfigManager;
 import org.simiancage.DeathTpPlus.common.DefaultLogger;
-import org.simiancage.DeathTpPlus.tombstone.models.Tomb;
-import org.simiancage.DeathTpPlus.tombstone.workers.TombWorker;
+import org.simiancage.DeathTpPlus.tomb.models.Tomb;
+import org.simiancage.DeathTpPlus.tomb.workers.TombWorker;
 
 /**
  * PluginName: DeathTpPlus

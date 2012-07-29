@@ -1,4 +1,4 @@
-package org.simiancage.DeathTpPlus.tombstone.listeners;
+package org.simiancage.DeathTpPlus.tomb.listeners;
 
 /**
  * PluginName: DeathTpPlugin
@@ -11,7 +11,7 @@ package org.simiancage.DeathTpPlus.tombstone.listeners;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldSaveEvent;
-import org.simiancage.DeathTpPlus.tombstone.workers.TombWorker;
+import org.simiancage.DeathTpPlus.tomb.workers.TombWorker;
 
 
 public class WorldSaveListener implements Listener {

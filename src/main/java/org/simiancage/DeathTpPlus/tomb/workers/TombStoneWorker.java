@@ -1,4 +1,4 @@
-package org.simiancage.DeathTpPlus.tombstone.workers;
+package org.simiancage.DeathTpPlus.tomb.workers;
 
 /**
  * PluginName: DeathTpPlus
@@ -13,8 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.simiancage.DeathTpPlus.DeathTpPlus;
 import org.simiancage.DeathTpPlus.common.ConfigManager;
-import org.simiancage.DeathTpPlus.tombstone.TombStoneHelper;
-import org.simiancage.DeathTpPlus.tombstone.models.TombStoneBlock;
+import org.simiancage.DeathTpPlus.tomb.TombStoneHelper;
+import org.simiancage.DeathTpPlus.tomb.models.TombStoneBlock;
 
 import java.util.Iterator;
 

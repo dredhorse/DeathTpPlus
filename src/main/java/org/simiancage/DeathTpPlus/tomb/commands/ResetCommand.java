@@ -1,4 +1,4 @@
-package org.simiancage.DeathTpPlus.tombstone.commands;
+package org.simiancage.DeathTpPlus.tomb.commands;
 
 /**
  * PluginName: DeathTpPlus
