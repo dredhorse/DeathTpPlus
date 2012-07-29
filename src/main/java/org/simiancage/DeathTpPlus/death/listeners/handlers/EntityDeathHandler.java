@@ -154,17 +154,17 @@ public class EntityDeathHandler {
 
 			if (entityDeathEvent instanceof PlayerDeathEvent) {
 				if (config.isDisableDeathNotifyInSpecifiedWorlds() || config.isShowDeathNotifyInDeathWorldOnly()) {
-	                Set<World> notifyWorlds = new HashSet<World>();
+	                Set<String> notifyWorlds = new HashSet<String>();
 	                
 	                if (config.isShowDeathNotifyInDeathWorldOnly()) {
-	                    notifyWorlds.add(deathDetail.getWorld());
+	                    notifyWorlds.add(deathDetail.getWorld().getName());
 	                } else {
-	                    notifyWorlds.addAll(Bukkit.getWorlds());
+	                    notifyWorlds.addAll(getWorldNames());
 	                }
 	                
 	                if (config.isDisableDeathNotifyInSpecifiedWorlds()) {
-	                    for (World world : notifyWorlds) {
-	                        if (config.isDisabledDeathNotifyWorld(world.getName())) {
+	                    for (String world : notifyWorlds) {
+	                        if (config.isDisabledDeathNotifyWorld(world)) {
 	                            notifyWorlds.remove(world);
 	                        }
 	                    }
@@ -211,6 +211,14 @@ public class EntityDeathHandler {
 		if (config.isShowDeathSign()) {
 			ShowDeathSign(deathDetail);
 		}
+	}
+
+	private static Set<String> getWorldNames() {
+		Set<String> worldNames = new HashSet<String>();
+		for (World world : Bukkit.getWorlds()) {
+			worldNames.add(world.getName());
+		}
+		return worldNames;
 	}
 
 	/**
