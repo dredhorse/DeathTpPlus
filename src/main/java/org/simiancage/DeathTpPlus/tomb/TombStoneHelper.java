@@ -526,22 +526,7 @@ public class TombStoneHelper {
 	}
 
 	public void registerLWCProtection(LWC lwc, Block block, boolean isPrivate, String owner) {
-		if (plugin.isLWC4()) {
-			Type type;
-			if (isPrivate) {
-				type = Type.PRIVATE;
-			} else {
-				type = Type.PUBLIC;
-			}
-			lwc.getPhysicalDatabase().registerProtection(block.getTypeId(), type, block.getWorld().getName(), owner, "", block.getX(), block.getY(), block.getZ());
-
-		} else {
-			Type protectionTypes = isPrivate ? Type.PRIVATE : Type.PUBLIC;
-			lwc.getPhysicalDatabase().registerProtection(block.getTypeId(), protectionTypes, block.getWorld().getName(), owner, "", block.getX(), block.getY(), block.getZ());
-
-		}
-
-		return;
+		lwc.getPhysicalDatabase().registerProtection(block.getTypeId(), isPrivate ? Type.PRIVATE : Type.PUBLIC, block.getWorld().getName(), owner, "", block.getX(), block.getY(), block.getZ());
 	}
 
 
