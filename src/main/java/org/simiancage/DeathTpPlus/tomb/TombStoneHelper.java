@@ -3,7 +3,6 @@ package org.simiancage.DeathTpPlus.tomb;
 import com.griefcraft.lwc.LWC;
 import com.griefcraft.model.Protection;
 import com.griefcraft.model.Protection.Type;
-import com.griefcraft.model.ProtectionTypes;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -526,10 +525,10 @@ public class TombStoneHelper {
 		}
 	}
 
-	public void registerLWCProtection(LWC lwc, Block block, boolean privat, String owner) {
+	public void registerLWCProtection(LWC lwc, Block block, boolean isPrivate, String owner) {
 		if (plugin.isLWC4()) {
 			Type type;
-			if (privat) {
+			if (isPrivate) {
 				type = Type.PRIVATE;
 			} else {
 				type = Type.PUBLIC;
@@ -537,13 +536,7 @@ public class TombStoneHelper {
 			lwc.getPhysicalDatabase().registerProtection(block.getTypeId(), type, block.getWorld().getName(), owner, "", block.getX(), block.getY(), block.getZ());
 
 		} else {
-			int protectionTypes;
-			if (privat) {
-				protectionTypes = ProtectionTypes.PRIVATE;
-			} else {
-				protectionTypes = ProtectionTypes.PUBLIC;
-
-			}
+			Type protectionTypes = isPrivate ? Type.PRIVATE : Type.PUBLIC;
 			lwc.getPhysicalDatabase().registerProtection(block.getTypeId(), protectionTypes, block.getWorld().getName(), owner, "", block.getX(), block.getY(), block.getZ());
 
 		}
