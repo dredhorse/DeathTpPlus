@@ -184,13 +184,10 @@ public class EntityDeathHandler {
 				}
 			}
 
-			/*
-						 *  // CraftIRC
-						 *           if (plugin.craftircHandle != null) {
-						 *               EndPoint endPoint =
-						 *               plugin.craftircHandle.newMsgToTag() sendMessageToTag(MessageUtil.removeColorCodes(deathMessage), config.getIrcDeathTpTag());
-						 *           }
-						 */
+			// CraftIRC
+			if (DeathTpPlus.craftIRCEndPoint != null) {
+	    		DeathTpPlus.craftIRCEndPoint.sendMessage(MessageUtil.removeColorCodes(deathMessage));
+			}
 		}
 
         // write kill to deathlog
