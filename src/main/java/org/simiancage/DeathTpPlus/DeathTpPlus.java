@@ -37,6 +37,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.dynmap.DynmapAPI;
 import org.getspout.spoutapi.Spout;
 import org.simiancage.DeathTpPlus.common.ConfigManager;
+import org.simiancage.DeathTpPlus.common.CraftIRCEndPoint;
 import org.simiancage.DeathTpPlus.common.DynMapHelper;
 import org.simiancage.DeathTpPlus.common.DefaultLogger;
 import org.simiancage.DeathTpPlus.common.Metrics;
@@ -93,7 +94,7 @@ public class DeathTpPlus extends JavaPlugin {
 	/**
 	 * Field description
 	 */
-	public static CraftIRC craftircHandle = null;
+	public static CraftIRCEndPoint craftIRCEndPoint = null;
 
 	/**
 	 * Field description
@@ -325,9 +326,9 @@ public class DeathTpPlus extends JavaPlugin {
 		// craftirc
 		Plugin checkCraftIRC = this.getServer().getPluginManager().getPlugin("CraftIRC");
 
-		if (checkCraftIRC != null) {
+		if (checkCraftIRC instanceof CraftIRC) {
 			try {
-				craftircHandle = (CraftIRC) checkCraftIRC;
+				craftIRCEndPoint = new CraftIRCEndPoint((CraftIRC) checkCraftIRC);
 				log.info("CraftIRC Support Enabled.");
 			} catch (ClassCastException ex) {
 				log.warning("Problems with getting CraftIRC", ex);
@@ -805,8 +806,8 @@ public class DeathTpPlus extends JavaPlugin {
 	 *
 	 * @return
 	 */
-	public static CraftIRC getCraftircHandle() {
-		return craftircHandle;
+	public static CraftIRCEndPoint getCraftircHandle() {
+		return craftIRCEndPoint;
 	}
 
 	//~--- set methods --------------------------------------------------------
