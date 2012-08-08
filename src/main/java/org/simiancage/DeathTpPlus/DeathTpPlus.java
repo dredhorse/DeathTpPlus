@@ -253,7 +253,7 @@ public class DeathTpPlus extends JavaPlugin {
 
 	private boolean worldGuardEnabled = false;
 
-	private Spout spout;
+	private Plugin spout;
 
 	private boolean spoutEnabled = false;
 
@@ -446,7 +446,7 @@ public class DeathTpPlus extends JavaPlugin {
 	    return spoutEnabled;
 	}
 
-	public Spout getSpoutPlugin() {
+	public Plugin getSpoutPlugin() {
 		return spout;
 	}
 
@@ -965,7 +965,7 @@ public class DeathTpPlus extends JavaPlugin {
 	    spoutEnabled = b;
 	}
 	
-	public void setSpoutPlugin(Spout spout) {
+	public void setSpoutPlugin(Plugin spout) {
 	    this.spout = spout;
 	}
 }
