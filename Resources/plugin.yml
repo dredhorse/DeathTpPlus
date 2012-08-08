@@ -75,6 +75,8 @@ permissions:
             deathtpplus.deathtp.streak: true
             deathtpplus.deathtp.deaths: true
             deathtpplus.deathtp.kills: true
+            deathtpplus.deathtp.report: true
+            deathtpplus.deathtp.top: true
             deathtpplus.worldtravel: true
             deathtpplus.admin: true
             deathtpplus.admin.list: true
@@ -104,6 +106,8 @@ permissions:
             deathtpplus.deathtp.streak: true
             deathtpplus.deathtp.deaths: true
             deathtpplus.deathtp.kills: true
+            deathtpplus.deathtp.report: true
+            deathtpplus.deathtp.top: true
     deathtpplus.admin.*:
         description: Gives access to all DeathTpPlus admin commands
         children:
@@ -142,6 +146,12 @@ permissions:
         default: true
     deathtpplus.deathtp.kills:
         description: Gives access to the kills command
+        default: true
+    deathtpplus.deathtp.report:
+        description: Gives access to the report command
+        default: true
+    deathtpplus.deathtp.top:
+        description: Gives access to the top command
         default: true
     deathtpplus.worldtravel:
         description: Allows teleporting / respawn to another worlds death location if allowWordTravel is "permissions"
