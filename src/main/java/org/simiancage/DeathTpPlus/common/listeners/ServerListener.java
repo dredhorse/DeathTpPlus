@@ -15,7 +15,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.dynmap.DynmapAPI;
-import org.getspout.spoutapi.Spout;
 import org.simiancage.DeathTpPlus.DeathTpPlus;
 import org.simiancage.DeathTpPlus.common.ConfigManager;
 import org.simiancage.DeathTpPlus.common.DynMapHelper;
@@ -23,7 +22,7 @@ import org.simiancage.DeathTpPlus.common.DefaultLogger;
 import org.yi.acru.bukkit.Lockette.Lockette;
 
 public class ServerListener implements Listener {
-	private static DeathTpPlus plugin;
+	private DeathTpPlus plugin;
 
 	private DefaultLogger log;
 	private ConfigManager config;
@@ -32,6 +31,7 @@ public class ServerListener implements Listener {
 
 
 	public ServerListener(DeathTpPlus plugin) {
+		this.plugin = plugin;
 		log = DefaultLogger.getLogger();
 		config = ConfigManager.getInstance();
 		log.debug("ServerListener active");

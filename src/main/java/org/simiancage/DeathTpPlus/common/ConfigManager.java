@@ -47,7 +47,7 @@ public class ConfigManager {
 	/**
 	 * Object to handle the plugin
 	 */
-	private static Plugin plugin;
+	private Plugin plugin;
 	/**
 	 * Configuration File Name
 	 */
@@ -1088,8 +1088,7 @@ afterwards parsable again from the configuration class of bukkit
 	 */
 	public static ConfigManager getInstance(String configuratonFile, Plugin plugin) {
 		if (instance == null) {
-			instance = new ConfigManager();
-			ConfigManager.plugin = plugin;
+			instance = new ConfigManager(plugin);
 		}
 		log = DefaultLogger.getLogger();
 		configFile = configuratonFile;
@@ -1116,6 +1115,9 @@ afterwards parsable again from the configuration class of bukkit
 
 	}
 
+	private ConfigManager(Plugin plugin) {
+		this.plugin = plugin;
+	}
 
 // than the getters
 
@@ -1263,6 +1265,7 @@ afterwards parsable again from the configuration class of bukkit
 
 	public void setupConfig(FileConfiguration fileConfiguration, Plugin plugin) {
 
+		this.plugin = plugin;
 		this.config = fileConfiguration;
 // Checking if config file exists, if not create it
 		if (!(new File(plugin.getDataFolder(), configFile)).exists()) {
