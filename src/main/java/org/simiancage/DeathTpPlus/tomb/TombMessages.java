@@ -565,12 +565,15 @@ afterwards parsable again from the configuration class of bukkit
 		// ToDo add new deathevents on top
 // Debugging
 
+		int totalMessages = 0;
 		for (DeathEventType deathEventType : DeathEventType.values()) {
 			if ((deathEventType != DeathEventType.MONSTER) && (deathEventType != DeathEventType.PVP_FISTS) && (deathEventType != DeathEventType.PVP_TAMED)) {
 				log.debug("deathEventType", deathEventType);
-				log.informational(deathevents.get(deathEventType).size() + " messages loaded for " + deathEventType);
+				log.debug(deathevents.get(deathEventType).size() + " messages loaded for " + deathEventType);
+				totalMessages += deathevents.get(deathEventType).size();
 			}
 		}
+		log.informational(totalMessages + " tomb message(s) loaded");
 
 		log.debug("deathevents", deathevents);
 
@@ -766,8 +769,8 @@ afterwards parsable again from the configuration class of bukkit
 
 	public void setupTombMessages(Plugin plugin) {
 
-		this.tombMessages = new YamlConfiguration();
 		this.plugin = plugin;
+		this.tombMessages = new YamlConfiguration();
 // Checking if tombMessages file exists, if not create it
 		if (!(new File(plugin.getDataFolder(), tombMessageFileName)).exists()) {
 			log.info("Creating default tombmessages file");

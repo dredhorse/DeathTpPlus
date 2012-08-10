@@ -890,10 +890,13 @@ afterwards parsable again from the configuration class of bukkit
 		deathMessages.put(DeathEventType.IRON_GOLEM, ConfigManager.checkList(deathMessageFileConfig.getStringList("irongolem"), Arrays.asList(defaultIronGolemMessages)));
 
 		//ToDo add new deathMessages to the top
+		int totalMessages = 0;
 		for (DeathEventType deathEventType : DeathEventType.values()) {
 			log.debug("deathEventType", deathEventType);
-			log.informational(deathMessages.get(deathEventType).size() + " messages loaded for " + deathEventType);
+			log.debug(deathMessages.get(deathEventType).size() + " messages loaded for " + deathEventType);
+			totalMessages += deathMessages.get(deathEventType).size();
 		}
+		log.informational(totalMessages + " death message(s) loaded");
 // Debugging
 
 		log.debug("killStreakMessages", killStreakMessages);
@@ -1256,6 +1259,7 @@ afterwards parsable again from the configuration class of bukkit
 
 	public void setupDeathMessages(Plugin plugin) {
 
+		this.plugin = plugin;
 		this.deathMessageFileConfig = new YamlConfiguration();
 		log.debug("deathMessageFileConfig", deathMessageFileConfig);
 		this.plugin = plugin;
