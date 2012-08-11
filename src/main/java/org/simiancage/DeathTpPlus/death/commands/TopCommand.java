@@ -23,7 +23,7 @@ public class TopCommand implements CommandExecutor {
 	public TopCommand(DeathTpPlus plugin) {
 		log = DefaultLogger.getLogger();
 		deathLog = DeathTpPlus.getDeathLog();
-		log.informational("report command registered");
+		log.debug("top command registered");
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String identifier, String[] args) {

@@ -25,7 +25,7 @@ public class StreakCommand implements CommandExecutor {
     public StreakCommand(DeathTpPlus instance) {
         log = DefaultLogger.getLogger();
         config = ConfigManager.getInstance();
-        log.informational("streak command registered");
+        log.debug("streak command registered");
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {

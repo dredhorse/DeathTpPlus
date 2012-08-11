@@ -23,7 +23,7 @@ public class DeathsCommand implements CommandExecutor {
 
     public DeathsCommand(DeathTpPlus instance) {
         log = DefaultLogger.getLogger();
-        log.informational("deaths command registered");
+        log.debug("deaths command registered");
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {

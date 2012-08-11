@@ -22,7 +22,7 @@ public class ReportCommand implements CommandExecutor {
 	public ReportCommand(DeathTpPlus plugin) {
 		log = DefaultLogger.getLogger();
 		deathLog = DeathTpPlus.getDeathLog();
-		log.informational("report command registered");
+		log.debug("report command registered");
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String identifier, String[] args) {

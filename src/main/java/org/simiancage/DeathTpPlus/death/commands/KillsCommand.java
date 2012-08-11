@@ -25,7 +25,7 @@ public class KillsCommand implements CommandExecutor {
 
     public KillsCommand(DeathTpPlus instance) {
         log = DefaultLogger.getLogger();
-        log.informational("kills command registered");
+        log.debug("kills command registered");
 
     }
 
