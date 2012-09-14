@@ -28,6 +28,7 @@ import org.simiancage.DeathTpPlus.death.persistence.DeathRecord.DeathRecordType;
 public class DeathRecordDao implements Runnable {
     private static final String DEATH_LOG_FILE = "deathlog.txt";
     private static final String DEATH_LOG_TMP = "deathlog.tmp";
+    private static final String DEATH_LOG_BAK = "deathlog.bak";
     private static final String CHARSET = "UTF-8";
     private static final long SAVE_DELAY = 1 * (60 * 20); // 1 minutes
     private static final long SAVE_PERIOD = 3 * (60 * 20); // 3 minutes
@@ -73,6 +74,7 @@ public class DeathRecordDao implements Runnable {
 
     public synchronized void save() {
         File tmpDeathLogFile = new File(dataFolder, DEATH_LOG_TMP);
+        File bakDeathLogFile = new File(dataFolder, DEATH_LOG_BAK);
 
         try {
             BufferedWriter tmpDeathLogWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tmpDeathLogFile), CHARSET));
@@ -83,9 +85,16 @@ public class DeathRecordDao implements Runnable {
             }
 
             tmpDeathLogWriter.close();
+            if (bakDeathLogFile.exists()) {
+            	bakDeathLogFile.delete();
+            }
+            if (!deathLogFile.renameTo(bakDeathLogFile)) {
+            	throw new Exception("Failed to rename old death log file.");
+            }
             if (!tmpDeathLogFile.renameTo(deathLogFile)) {
                 throw new Exception("Failed to rename death log.");
             }
+            tmpDeathLogFile.delete();
         }
         catch (Exception e) {
             log.severe("Failed to edit death log: " + e.toString());

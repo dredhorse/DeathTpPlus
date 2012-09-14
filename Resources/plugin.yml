@@ -31,14 +31,16 @@ commands:
             Example: /<command> - Displays your total kill count.
             Example: /<command> dredhorse - Displays total kill count.
             Example: /<command> lonelydime dredhorse - prints times lonelydime killed dredhorse.
-    report:
+    dtpreport:
         description: Display your kill/death reports
+        aliases: report
         usage: |
             /<command> <kills|deaths> [page_number]
             Example: /<command> kills - Displays your kill report
             Example: /<command> deaths 1 - Displays page 1 of your death report
-    top:
+    dtptop:
         description: Display global top kill/death reports
+        aliases: top
         usage: |
             /<command> top <kills|deaths> [page_number]
             Example: /<command> top kills - Displays top kills report

@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.simiancage.DeathTpPlus.DeathTpPlus;
 import org.simiancage.DeathTpPlus.common.DefaultLogger;
 import org.simiancage.DeathTpPlus.death.persistence.DeathRecordDao;
@@ -19,15 +18,17 @@ public class TopCommand implements CommandExecutor {
 	private static final int CMDS_PER_PAGE = 8;
 	private DeathRecordDao deathLog;
 	private DefaultLogger log;
+	private DeathTpPlus plugin;
 
 	public TopCommand(DeathTpPlus plugin) {
 		log = DefaultLogger.getLogger();
 		deathLog = DeathTpPlus.getDeathLog();
 		log.debug("top command registered");
+		this.plugin = plugin;
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String identifier, String[] args) {
-		if (!((Player) sender).hasPermission("deathtpplus.deathtp.top") || args.length < 1) {
+		if (!plugin.hasPerm(sender, "deathtpplus.deathtp.top", true) || args.length < 1) {
 			return false;
 		}
 

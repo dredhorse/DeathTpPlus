@@ -846,8 +846,8 @@ public class DeathTpPlus extends JavaPlugin {
 		getCommand("deaths").setExecutor(new DeathsCommand(this));
 		getCommand("kills").setExecutor(new KillsCommand(this));
 		getCommand("streak").setExecutor(new StreakCommand(this));
-		getCommand("report").setExecutor(new ReportCommand(this));
-		getCommand("top").setExecutor(new TopCommand(this));
+		getCommand("dtpreport").setExecutor(new ReportCommand(this));
+		getCommand("dtptop").setExecutor(new TopCommand(this));
 	}
 
 	//~--- get methods --------------------------------------------------------

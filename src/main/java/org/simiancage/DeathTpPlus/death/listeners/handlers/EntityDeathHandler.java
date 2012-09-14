@@ -163,7 +163,8 @@ public class EntityDeathHandler {
 	                }
 	                
 	                if (config.isDisableDeathNotifyInSpecifiedWorlds()) {
-	                    for (String world : notifyWorlds) {
+	                	Set<String> tmpWorlds = new HashSet<String>(notifyWorlds);
+	                    for (String world : tmpWorlds) {
 	                        if (config.isDisabledDeathNotifyWorld(world)) {
 	                            notifyWorlds.remove(world);
 	                        }
@@ -175,6 +176,7 @@ public class EntityDeathHandler {
 	                        player.sendMessage(deathMessage);
 	                    }
 	                }
+	                ((PlayerDeathEvent) entityDeathEvent).setDeathMessage("");
 				} else {
 					((PlayerDeathEvent) entityDeathEvent).setDeathMessage(deathMessage);
 				}
