@@ -116,11 +116,11 @@ public class ConfigManager {
 	/**
 	 * This is the internal config version
 	 */
-	private final String configCurrent = "3.4";
+	private final String configCurrent = "4.0";
 	/**
 	 * This is the DEFAULT for the config file version, should be the same as configCurrent. Will afterwards be changed
 	 */
-	private String configVer = "3.4";
+	private String configVer = "4.0";
 
 	// and now the real stuff
 
@@ -163,6 +163,10 @@ public class ConfigManager {
 	 * Integrate into Dynmap
 	 */
 	private boolean integrateIntoDynmap = true;
+	/**
+	 * Ignore WorldGuard protection
+	 */
+	private boolean ignoreWorldGuardProtection = false;
 
 	// DeathTp Features
 	/**
@@ -392,6 +396,7 @@ public class ConfigManager {
 		config.addDefault("allowWorldTravel", allowWorldTravel);
 		config.addDefault("shouldOnlyUseAirToCreate", shouldOnlyUseAirToCreate);
 		config.addDefault("integrateIntoDynmap", integrateIntoDynmap);
+		config.addDefault("ignoreWorldGuardProtection", ignoreWorldGuardProtection);
 
 		// DeathTp Features Variables
 		config.addDefault("enableDeathtp", enableDeathtp);
@@ -463,6 +468,7 @@ public class ConfigManager {
 		tombStoneSign[3] = config.getString("tombStoneSign.Line4", tombStoneSign[3]);
 		shouldOnlyUseAirToCreate = config.getBoolean("shouldOnlyUseAirToCreate");
 		integrateIntoDynmap = config.getBoolean("integrateIntoDynmap");
+		ignoreWorldGuardProtection = config.getBoolean("ignoreWorldGuardProtection");
 
 		// DeathTpPlus Features
 		enableDeathtp = config.getBoolean("enableDeathtp");
@@ -526,6 +532,7 @@ public class ConfigManager {
 		log.debug("tombStoneSign", tombStoneSign[3]);
 		log.debug("shouldOnlyUseAirToCreate", shouldOnlyUseAirToCreate);
 		log.debug("integrateIntoDynmap", integrateIntoDynmap);
+		log.debug("ignoreWorldGuardProtection", ignoreWorldGuardProtection);
 		log.debug("allowWordTravel", allowWorldTravel);
 		log.debug("enableDeathtp", enableDeathtp);
 		log.debug("showDeathNotify", showDeathNotify);
@@ -648,6 +655,9 @@ public class ConfigManager {
 		stream.println();
 		stream.println("# Integrate into DynMap");
 		stream.println("integrateIntoDynmap: " + integrateIntoDynmap);
+		stream.println();
+		stream.println("# Ignore WorldGuard Protection Zones");
+		stream.println("ignoreWorldGuardProtection: " + ignoreWorldGuardProtection);
 		stream.println();
 		stream.println("#--------- DeathTp Features");
 		stream.println();
@@ -1020,6 +1030,10 @@ public class ConfigManager {
 
 	public boolean isResetTombRespawn() {
 		return resetTombRespawn;
+	}
+
+	public boolean isIgnoreWorldGuardProtection() {
+		return ignoreWorldGuardProtection;
 	}
 
 	/**

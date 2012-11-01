@@ -5,7 +5,15 @@ package org.simiancage.DeathTpPlus.commons.listeners;
 import com.garbagemule.MobArena.MobArenaHandler;
 import com.griefcraft.lwc.LWCPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+
 import net.milkbowl.vault.economy.Economy;
+import org.dynmap.DynmapAPI;
+import org.simiancage.DeathTpPlus.DeathTpPlus;
+import org.simiancage.DeathTpPlus.commons.ConfigManager;
+import org.simiancage.DeathTpPlus.commons.DefaultLogger;
+import org.simiancage.DeathTpPlus.commons.DynMapHelper;
+import org.yi.acru.bukkit.Lockette.Lockette;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -14,30 +22,20 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.dynmap.DynmapAPI;
-import org.simiancage.DeathTpPlus.DeathTpPlus;
-import org.simiancage.DeathTpPlus.commons.ConfigManager;
-import org.simiancage.DeathTpPlus.commons.DefaultLogger;
-import org.simiancage.DeathTpPlus.commons.DynMapHelper;
-import org.yi.acru.bukkit.Lockette.Lockette;
 
 public class ServerListener implements Listener {
 	private DeathTpPlus plugin;
-
 	private DefaultLogger log;
 	private ConfigManager config;
 	private boolean missingEconomyWarn = true;
 	private boolean dynMapNotReady = true;
-
 
 	public ServerListener(DeathTpPlus plugin) {
 		this.plugin = plugin;
 		log = DefaultLogger.getLogger();
 		config = ConfigManager.getInstance();
 		log.debug("ServerListener active");
-
 	}
-
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPluginDisable(PluginDisableEvent event) {
@@ -81,7 +79,6 @@ public class ServerListener implements Listener {
 			plugin.setDynMapHelper(null);
 			plugin.setDynmapAPI(null);
 			dynMapNotReady = true;
-
 		}
 		Plugin checkWorldGuard = pm.getPlugin("WorldGuard");
 		if ((checkWorldGuard == null) && plugin.isWorldGuardEnabled()) {
@@ -89,10 +86,7 @@ public class ServerListener implements Listener {
 			log.info("as WorldGuard was unloaded / disabled.");
 			plugin.setWorldGuardEnabled(false);
 			plugin.setWorldGuardPlugin(null);
-
 		}
-
-
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -109,7 +103,6 @@ public class ServerListener implements Listener {
 			log.info("Checking ecnomony providers now!");
 		}
 
-
 		if ((!plugin.isEconomyActive() && plugin.isUseVault())) {
 
 			RegisteredServiceProvider<Economy> economyProvider = plugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
@@ -117,7 +110,6 @@ public class ServerListener implements Listener {
 				plugin.setEconomy(economyProvider.getProvider());
 				plugin.setEconomyActive(true);
 				log.info("Economy provider found: " + plugin.getEconomy().getName());
-
 			} else {
 				if (missingEconomyWarn) {
 					log.warning("No economy provider found.");
@@ -172,21 +164,20 @@ public class ServerListener implements Listener {
 					plugin.setDynMapHelper(dynMapHelper);
 
 					dynMapHelper.onEnable();
-
 				}
 			}
 		}
 
-		if (checkWorldGuard != null && !plugin.isWorldGuardEnabled()) {
+		if (checkWorldGuard != null && !plugin.isWorldGuardEnabled() && !config.isIgnoreWorldGuardProtection()) {
 			log.info("Enabling WorldGuard integration");
 			plugin.setWorldGuardPlugin((WorldGuardPlugin) checkWorldGuard);
 			plugin.setWorldGuardEnabled(true);
 		}
 
 		if (checkSpout != null && !plugin.isSpoutEnabled()) {
-		    log.info("Enabling Spout integration");
-		    plugin.setSpoutPlugin(checkSpout);
-		    plugin.setSpoutEnabled(true);
+			log.info("Enabling Spout integration");
+			plugin.setSpoutPlugin(checkSpout);
+			plugin.setSpoutEnabled(true);
 		}
 	}
 }
