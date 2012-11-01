@@ -1,17 +1,18 @@
 package org.simiancage.DeathTpPlus.teleport.commands;
 
+import org.simiancage.DeathTpPlus.DeathTpPlus;
+import org.simiancage.DeathTpPlus.commons.ConfigManager;
+import org.simiancage.DeathTpPlus.commons.DefaultLogger;
+import org.simiancage.DeathTpPlus.teleport.TeleportHelper;
+import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocation;
+import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocationDao;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.simiancage.DeathTpPlus.DeathTpPlus;
-import org.simiancage.DeathTpPlus.commons.ConfigManager;
-import org.simiancage.DeathTpPlus.commons.DefaultLogger;
-import org.simiancage.DeathTpPlus.teleport.TeleportHelper;
-import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocationDao;
-import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocation;
 
 /**
  * PluginName: DeathTpPlus
@@ -20,86 +21,81 @@ import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocation;
  * Date: 19.10.11
  * Time: 22:09
  */
-
 public class DeathTpCommand implements CommandExecutor {
+	private DeathTpPlus plugin;
+	private DefaultLogger log;
+	private ConfigManager config;
+	private DeathLocationDao deathLocationLog;
 
-    private DeathTpPlus plugin;
-    private DefaultLogger log;
-    private ConfigManager config;
-    private DeathLocationDao deathLocationLog;
+	/**
+	 * List of blocks which are normally save to teleport into
+	 */
+	public DeathTpCommand(DeathTpPlus instance) {
+		this.plugin = instance;
+		log = DefaultLogger.getLogger();
+		config = ConfigManager.getInstance();
+		deathLocationLog = DeathTpPlus.getDeathLocationLog();
+		log.informational("deathtp command registered");
+	}
 
-    /**
-     * List of blocks which are normally save to teleport into
-     */
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+		boolean canUseCommand = false;
+		log.debug("deathtp command executing");
 
-    public DeathTpCommand(DeathTpPlus instance) {
-        this.plugin = instance;
-        log = DefaultLogger.getLogger();
-        config = ConfigManager.getInstance();
-        deathLocationLog = DeathTpPlus.getDeathLocationLog();
-        log.informational("deathtp command registered");
-    }
+		if (sender instanceof Player) {
+			Player player = (Player) sender;
+			// ToDo remove debug in 3.5
+			if (!player.hasPermission("deathtpplus.deathtp.deathtp") && player.hasPermission("deathtpplus.deathtp")) {
+				log.debug("old permission found: deathtpplus.deathtp for player " + player.getName());
+				log.debug("please use: deathtpplus.deathtp.deathtp");
+			}
 
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        boolean canUseCommand = false;
-        log.debug("deathtp command executing");
+			canUseCommand = (player.hasPermission("deathtpplus.deathtp.deathtp") || config.isAllowDeathtp());
 
+			if (canUseCommand) {
+				TeleportHelper teleportHelper = new TeleportHelper(plugin);
+				log.debug("canUseCommand", canUseCommand);
+				String thisWorld = player.getWorld().getName();
 
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            // ToDo remove debug in 3.5
-            if (!player.hasPermission("deathtpplus.deathtp.deathtp") && player.hasPermission("deathtpplus.deathtp")) {
-                log.debug("old permission found: deathtpplus.deathtp for player " + player.getName());
-                log.debug("please use: deathtpplus.deathtp.deathtp");
-            }
+				if (!teleportHelper.canTp(player, true)) {
+					log.debug("canTp", "nope");
+					return true;
+				}
 
-            canUseCommand = (player.hasPermission("deathtpplus.deathtp.deathtp") || config.isAllowDeathtp());
+				DeathLocation locationRecord = deathLocationLog.getRecord(player.getName());
 
+				if (locationRecord != null) {
+					World deathWorld = player.getServer().getWorld(locationRecord.getWorldName());
+					// check if world still exists otherwise display a message and exit
+					if (deathWorld == null) {
+						log.debug("World: " + locationRecord.getWorldName() + " doesn't exist anymore");
+						player.sendMessage("The deathlocation is in a world which is no more! RIP: " + locationRecord.getWorldName());
+						return true;
+					}
+					if (!teleportHelper.canGoBetween(thisWorld, deathWorld, player)) {
+						player.sendMessage("You do not have the right to travel between worlds via deathtp!");
+						return true;
+					}
 
-            if (canUseCommand) {
-                TeleportHelper teleportHelper = new TeleportHelper(plugin);
-                log.debug("canUseCommand", canUseCommand);
-                String thisWorld = player.getWorld().getName();
+					Location deathLocation = teleportHelper.findTeleportLocation(locationRecord, player);
 
-                if (!teleportHelper.canTp(player, true)) {
-                    log.debug("canTp", "nope");
-                    return true;
-                }
+					if (deathLocation == null) {
+						return true;
+					}
 
+					deathLocation.setWorld(deathWorld);
+					player.teleport(deathLocation);
+					teleportHelper.registerTp(player);
+				}
+			} else {
+				player.sendMessage("That command is not available");
+			}
 
-                DeathLocation locationRecord = deathLocationLog.getRecord(player.getName());
-
-                if (locationRecord != null) {
-                    World deathWorld = player.getServer().getWorld(locationRecord.getWorldName());
-                    if (!teleportHelper.canGoBetween(thisWorld, deathWorld, player)) {
-                        player.sendMessage("You do not have the right to travel between worlds via deathtp!");
-                        return true;
-                    }
-
-                    Location deathLocation = teleportHelper.findTeleportLocation(locationRecord, player);
-
-                    if (deathLocation == null) {
-                        return true;
-                    }
-
-                    deathLocation.setWorld(deathWorld);
-                    player.teleport(deathLocation);
-                    teleportHelper.registerTp(player);
-
-                }
-
-            } else {
-                player.sendMessage("That command is not available");
-            }
-
-
-            return true;
-        } else {
-            log.warning("This is only a player command.");
-            return true;
-        }
-    }
-
-
+			return true;
+		} else {
+			log.warning("This is only a player command.");
+			return true;
+		}
+	}
 }
 

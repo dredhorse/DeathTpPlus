@@ -1,5 +1,27 @@
 package org.simiancage.DeathTpPlus.commons;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.dynmap.DynmapAPI;
+import org.dynmap.markers.Marker;
+import org.dynmap.markers.MarkerAPI;
+import org.dynmap.markers.MarkerIcon;
+import org.dynmap.markers.MarkerSet;
+import org.simiancage.DeathTpPlus.DeathTpPlus;
+import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocation;
+import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocationDao;
+import org.simiancage.DeathTpPlus.tomb.TombStoneHelper;
+import org.simiancage.DeathTpPlus.tomb.models.Tomb;
+import org.simiancage.DeathTpPlus.tomb.models.TombStoneBlock;
+import org.simiancage.DeathTpPlus.tomb.workers.TombWorker;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -8,24 +30,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.dynmap.DynmapAPI;
-import org.dynmap.markers.Marker;
-import org.dynmap.markers.MarkerAPI;
-import org.dynmap.markers.MarkerIcon;
-import org.dynmap.markers.MarkerSet;
-import org.simiancage.DeathTpPlus.DeathTpPlus;
-import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocationDao;
-import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocation;
-import org.simiancage.DeathTpPlus.tomb.TombStoneHelper;
-import org.simiancage.DeathTpPlus.tomb.models.Tomb;
-import org.simiancage.DeathTpPlus.tomb.models.TombStoneBlock;
-import org.simiancage.DeathTpPlus.tomb.workers.TombWorker;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.*;
 
 /**
  * PluginName: DeathTpPlus
@@ -34,7 +38,6 @@ import java.util.*;
  * Date: 04.01.12
  * Time: 17:25
  */
-
 public class DynMapHelper {
 	private DeathTpPlus plugin;
 	private ConfigManager configManager;
@@ -51,7 +54,6 @@ public class DynMapHelper {
 		TOMBSTONES("TombStones", "chest", "Treasures of %name%"),
 		TOMBS("Tombs", "skull", "Tomb of %name%"),
 		DEATHLOCATIONS("LastDeath", "pirateflag", "%name% died here");
-
 		private String name;
 		private boolean hideByDefault = false;
 		private int layerPrio = 0;
@@ -134,7 +136,6 @@ public class DynMapHelper {
 		}
 	}
 
-
 	public DynMapHelper(DeathTpPlus plugin) {
 		this.plugin = plugin;
 		configManager = ConfigManager.getInstance();
@@ -182,7 +183,6 @@ public class DynMapHelper {
 			markers.clear();
 		}
 
-
 		void updateMarkerSet() {
 			Map<String, Marker> newmap = new HashMap<String, Marker>(); /* Build new map */
 
@@ -224,7 +224,6 @@ public class DynMapHelper {
 	private class TombLayer extends Layer {
 		TombWorker tombs;
 
-
 		public TombLayer() {
 			super(Layers.TOMBS);
 			tombs = TombWorker.getInstance();
@@ -252,13 +251,9 @@ public class DynMapHelper {
 		}
 	}
 
-
 	private class TombStoneLayer extends Layer {
-
-
 		public TombStoneLayer() {
 			super(Layers.TOMBSTONES);
-
 		}
 
 		/* Get current markers, by ID with location */
@@ -277,7 +272,6 @@ public class DynMapHelper {
 					tombStoneBlock = tombStoneBlockMap.get(location);
 					playerName = tombStoneBlock.getOwner();
 					map.put(playerName, location);
-
 				}
 			}
 			return map;
@@ -285,11 +279,8 @@ public class DynMapHelper {
 	}
 
 	private class DeathLocationLayer extends Layer {
-
-
 		public DeathLocationLayer() {
 			super(Layers.DEATHLOCATIONS);
-
 		}
 
 		/* Get current markers, by ID with location */
@@ -308,8 +299,11 @@ public class DynMapHelper {
 					double z = location.getZ();
 					String worldName = deathLocationsLog.get(i).getWorldName();
 					World world = plugin.getServer().getWorld(worldName);
-					location = new Location(world, x, y, z);
-					map.put(player, location);
+					// Check if the world even still exists, if not just ignore it
+					if (world != null) {
+						location = new Location(world, x, y, z);
+						map.put(player, location);
+					}
 				}
 			}
 
@@ -319,17 +313,12 @@ public class DynMapHelper {
 
 	/* TombStone layer settings */
 	private Layer tombstonelayer;
-
 	/* Tomb layer settings */
 	private Layer tomblayer;
-
 	/* DeathLocation layer settings */
 	private Layer deathlocationlayer;
-
-
 	long updperiod;
 	boolean stop;
-
 
 	private class MarkerUpdate implements Runnable {
 		public void run() {
@@ -357,7 +346,6 @@ public class DynMapHelper {
 		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new MarkerUpdate(), updperiod);
 	}
 
-
 	public void onEnable() {
 		logger.info("initializing DynMap integration");
 		/* Get dynmap */
@@ -381,7 +369,6 @@ public class DynMapHelper {
 		loadConfig();
 		api = plugin.getDynmapAPI();
 		activate();
-
 	}
 
 	private void activate() {
@@ -458,7 +445,7 @@ public class DynMapHelper {
 			PluginDescriptionFile pdfFile = plugin.getDescription();
 			stream = new PrintWriter(pluginPath + configFile);
 			logger.debug("starting contents");
-//Let's write our config ;)
+			//Let's write our config ;)
 			stream.println("# " + pdfFile.getName() + " " + pdfFile.getVersion() + " by " + pdfFile.getAuthors().toString());
 			stream.println("#");
 			stream.println("# Configuration File for DynMap Integration");
@@ -486,16 +473,13 @@ public class DynMapHelper {
 				stream.println("        # LayerPriority ");
 				stream.println("        layerPrio: " + layer.getLayerPrio());
 				stream.println();
-
 			}
-
 
 			stream.println();
 
 			stream.close();
 
 			success = true;
-
 		} catch (FileNotFoundException e) {
 			logger.warning("Error saving the " + configFile + ".");
 		}

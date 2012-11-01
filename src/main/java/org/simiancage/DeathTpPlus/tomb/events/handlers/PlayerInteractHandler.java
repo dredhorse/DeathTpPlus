@@ -173,6 +173,11 @@ public class PlayerInteractHandler {
 			DeathLocation locationRecord = deathLocationLog.getRecord(player.getName());
 			if (locationRecord != null) {
 				World deathWorld = player.getServer().getWorld(locationRecord.getWorldName());
+				if (deathWorld == null) {
+					log.debug("World: " + locationRecord.getWorldName() + " doesn't exist anymore");
+					player.sendMessage("The deathlocation is in a world which is no more! RIP: " + locationRecord.getWorldName());
+					return;
+				}
 				if (!teleportHelper.canGoBetween(thisWorld, deathWorld, player)) {
 					player.sendMessage("You do not have the right to travel between worlds via your tomb!");
 					return;

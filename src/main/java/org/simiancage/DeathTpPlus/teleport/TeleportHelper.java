@@ -1,5 +1,14 @@
 package org.simiancage.DeathTpPlus.teleport;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.simiancage.DeathTpPlus.DeathTpPlus;
+import org.simiancage.DeathTpPlus.commons.ConfigManager;
+import org.simiancage.DeathTpPlus.commons.DefaultLogger;
+import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocation;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -7,14 +16,6 @@ import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.simiancage.DeathTpPlus.DeathTpPlus;
-import org.simiancage.DeathTpPlus.commons.ConfigManager;
-import org.simiancage.DeathTpPlus.commons.DefaultLogger;
-import org.simiancage.DeathTpPlus.teleport.persistence.DeathLocation;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * PluginName: DeathTpPlus
@@ -23,14 +24,10 @@ import java.util.List;
  * Date: 04.01.12
  * Time: 15:11
  */
-
 public class TeleportHelper {
-
 	private DeathTpPlus plugin;
 	private DefaultLogger log;
 	private ConfigManager config;
-
-
 	private List<Integer> saveBlocks = new ArrayList<Integer>(Arrays.asList(new Integer[]{
 			0, 6, 8, 9, 10, 11, 37, 38, 39, 40, 50, 51, 55, 59, 69, 76
 	}));
@@ -40,7 +37,6 @@ public class TeleportHelper {
 		log = DefaultLogger.getLogger();
 		config = ConfigManager.getInstance();
 	}
-
 
 	public Boolean canTp(Player player, boolean isDeathTp) {
 		boolean canTele = false;
@@ -66,7 +62,6 @@ public class TeleportHelper {
 			}
 		}
 
-
 		if (hasFunds(player)) {
 			double deathTpCost = Double.valueOf(config.getDeathtpCost().trim());
 			if (plugin.isEconomyActive() && deathTpCost > 0.0) {
@@ -74,7 +69,6 @@ public class TeleportHelper {
 				player.sendMessage(String.format("You used %s to use /deathtp.", plugin.getEconomy().format(deathTpCost)));
 			}
 		}
-
 	}
 
 	private Boolean hasItem(Player player) {
@@ -111,7 +105,6 @@ public class TeleportHelper {
 		}
 		return true;
 	}
-
 
 	// Code from Tele++
 	public Location saveDeathLocation(DeathLocation locationRecord, World world) {
@@ -177,8 +170,6 @@ public class TeleportHelper {
 			}
 		} else {
 			canGoBetween = true;
-
-
 		}
 		return canGoBetween;
 	}
@@ -189,6 +180,12 @@ public class TeleportHelper {
 		Location deathLocation = locationRecord.getLocation();
 		log.debug("deathLocation", deathLocation);
 		World deathWorld = player.getServer().getWorld(locationRecord.getWorldName());
+		// check if world still exists otherwise display message and exit
+		if (deathWorld == null) {
+			log.debug("World: " + locationRecord.getWorldName() + " doesn't exist anymore");
+			player.sendMessage("The deathlocation is in a world which is no more! RIP: " + locationRecord.getWorldName());
+			return null;
+		}
 
 		// Added chunkload when chunk not loaded, code from Tele++
 		int cx = deathLocation.getBlockX() >> 4;
