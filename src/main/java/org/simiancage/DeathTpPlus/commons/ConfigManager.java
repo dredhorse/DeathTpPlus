@@ -9,38 +9,37 @@ package org.simiancage.DeathTpPlus.commons;
  *
  */
 
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.simiancage.DeathTpPlus.commons.pings.PINGS;
-import org.simiancage.DeathTpPlus.commons.pings.PingManager;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 
 /**
  * The ConfigManager Class allows you to write a custom config file for craftbukkit plugins incl. comments.
  * It allows autoupdating config changes, checking for plugin updates and writing back the configuration.
  * Please note that writing to the config file will overwrite any manual changes.<p>
  * You NEED to fix all ToDos, otherwise the class will NOT work!<p>
- *
  * @author Don Redhorse
  */
 public class ConfigManager {
-
 	/**
 	 * Instance of the Configuration Class
 	 */
 	private static ConfigManager instance = null;
 
-// Nothing to change from here to ==>>>
+	// Nothing to change from here to ==>>>
 	/**
 	 * Object to handle the configuration
-	 *
 	 * @see org.bukkit.configuration.file.FileConfiguration
 	 */
 	private FileConfiguration config;
@@ -56,7 +55,7 @@ public class ConfigManager {
 	 * Is the configuration available or did we have problems?
 	 */
 	private boolean configAvailable = false;
-// Default plugin configuration
+	// Default plugin configuration
 	/**
 	 * Enables logging to server console. Warning and Severe will still be logged.
 	 */
@@ -89,18 +88,14 @@ public class ConfigManager {
 	 * Do we require a config update?
 	 */
 	private boolean configRequiresUpdate = false;
-
 	/**
 	 * Is there a different plugin version available?
 	 */
 	private boolean differentPluginAvailable = false;
 
+	// <<<<=== here..
 
-// <<<<=== here..
-
-
-// Stuff with minor changes
-
+	// Stuff with minor changes
 	/**
 	 * Link to the location of the plugin website
 	 */
@@ -110,12 +105,9 @@ public class ConfigManager {
 	 */
 	private final String versionURL = "https://raw.github.com/dredhorse/DeathTpPlus/master/Resources/deathtpplus.ver";
 
-
 	//ToDo create new link for every version
-
 	/**
 	 * Reference of the DefaultLogger class.
-	 *
 	 * @see DefaultLogger
 	 */
 	private static DefaultLogger log;
@@ -130,15 +122,11 @@ public class ConfigManager {
 	 */
 	private String configVer = "3.4";
 
+	// and now the real stuff
 
-// and now the real stuff
+	// ********************************************************************************************************************
 
-
-// ********************************************************************************************************************
-
-
-// Default Config Variables start here!
-
+	// Default Config Variables start here!
 	/**
 	 * Flag for CraftIrc
 	 */
@@ -167,7 +155,6 @@ public class ConfigManager {
 	 * Allow World Travel = yes, no, permissions
 	 */
 	private String allowWorldTravel = "no";
-
 	/**
 	 * Only use AIR to create signs or chests
 	 */
@@ -177,9 +164,7 @@ public class ConfigManager {
 	 */
 	private boolean integrateIntoDynmap = true;
 
-
-// DeathTp Features
-
+	// DeathTp Features
 	/**
 	 * Enable DeathTp Features
 	 */
@@ -236,13 +221,11 @@ public class ConfigManager {
 	 * Economy costs for deathtp command, leave 0 if you don't want to charge
 	 */
 	private String deathtpCost = "10";
-
 	/**
 	 * Use Displaynames for Broadcast messages
 	 * Note: Depending on the characters you are using in the names this can cause NPE's!!
 	 */
 	private boolean useDisplayNameforBroadcasts = false;
-
 	/**
 	 * Use the old teleport to highest block or the new save location feature.
 	 * Note: Save location feature will display the location of the death if it doesn't find a save spot
@@ -250,9 +233,7 @@ public class ConfigManager {
 	 */
 	private boolean teleportToHighestBlock = true;
 
-
-// TombStone Features (General)
-
+	// TombStone Features (General)
 	/**
 	 * Enable TombStone Feature
 	 */
@@ -298,19 +279,16 @@ public class ConfigManager {
 	 * REMEMBER: LINES ARE LIMITED TO 15 CHARACTERS, AND DON'T FORGET THE QUOTES!
 	 */
 	private String[] tombStoneSign = new String[]{"{name}", "RIP", "{date}", "{time}"};
-
 	/**
 	 * Keep dropped experience when you die AND use quickloot.
 	 */
 	private boolean keepExperienceOnQuickLoot = false;
-
 	/**
 	 * Keep full experience?
 	 */
 	private boolean keepFullExperience = false;
 
-// TombStone features (Removal)
-
+	// TombStone features (Removal)
 	/**
 	 * Destroy Tombstone on player quickloot
 	 */
@@ -334,9 +312,7 @@ public class ConfigManager {
 	 */
 	private boolean keepTombStoneUntilEmpty = false;
 
-
-// TombStone Features (Security)
-
+	// TombStone Features (Security)
 	/**
 	 * Remove security after timeout
 	 */
@@ -346,8 +322,7 @@ public class ConfigManager {
 	 */
 	private String removeTombStoneSecurityTimeOut = "3600";
 
-// Tomb Features
-
+	// Tomb Features
 	/**
 	 * Enable the Tomb feature
 	 */
@@ -377,41 +352,37 @@ public class ConfigManager {
 	 * When a Tomb is destroyed, the respawn point is reset.
 	 */
 	private boolean resetTombRespawn = false;
-
 	/**
 	 * Allow RightClick of Tomb to Teleport to Deathlocation
 	 */
 	private boolean allowTombAsTeleport = false;
 
-// *******************************************************************************************************************
+	// *******************************************************************************************************************
 
+	/*  Here comes the custom config, the default config is later on in the class
+ Keep in mind that you need to create your config file in a way which is
+ afterwards parsable again from the configuration class of bukkit
+ */
 
-/*  Here comes the custom config, the default config is later on in the class
-Keep in mind that you need to create your config file in a way which is
-afterwards parsable again from the configuration class of bukkit
-*/
-
-// First we have the default part..
-// Which is devided in setting up some variables first
+	// First we have the default part..
+	// Which is devided in setting up some variables first
 
 	/**
 	 * Method to setup the config variables with default values
 	 */
-
 	private void setupCustomDefaultVariables() {
 
 		disabledDeathNotifyWorlds = Arrays.asList(new String[]{"none"});
-
 	}
 
-// And than we add the defaults
+	// And than we add the defaults
 
 	/**
 	 * Method to add the config variables to the default configuration
 	 */
 	private void customDefaultConfig() {
 
-// Default DeathTpPlus Variables
+		// Default DeathTpPlus Variables
 		log.debug("config", config);
 		config.addDefault("ircDeathTpTag", ircDeathTpTag);
 		config.addDefault("dateFormat", dateFormat);
@@ -422,7 +393,7 @@ afterwards parsable again from the configuration class of bukkit
 		config.addDefault("shouldOnlyUseAirToCreate", shouldOnlyUseAirToCreate);
 		config.addDefault("integrateIntoDynmap", integrateIntoDynmap);
 
-// DeathTp Features Variables
+		// DeathTp Features Variables
 		config.addDefault("enableDeathtp", enableDeathtp);
 		config.addDefault("showDeathNotify", showDeathNotify);
 		config.addDefault("disableDeathNotifyInSpecifiedWorlds", disableDeathNotifyInSpecifiedWorlds);
@@ -440,7 +411,7 @@ afterwards parsable again from the configuration class of bukkit
 		config.addDefault("lwcPublic", lwcPublic);
 		config.addDefault("useDisplayNamesForBroadcast", useDisplayNameforBroadcasts);
 		config.addDefault("teleportToHighestBlock", teleportToHighestBlock);
-// TombStone Features (General)
+		// TombStone Features (General)
 		config.addDefault("enableTombStone", enableTombStone);
 		config.addDefault("showTombStoneSign", showTombStoneSign);
 		config.addDefault("allowTombStoneDestroy", allowTombStoneDestroy);
@@ -451,17 +422,17 @@ afterwards parsable again from the configuration class of bukkit
 		config.addDefault("creeperProtection", creeperProtection);
 		config.addDefault("keepExperienceOnQuickLoot", keepExperienceOnQuickLoot);
 		config.addDefault("keepFullExperience", keepFullExperience);
-// TombStone Features (Removal)
+		// TombStone Features (Removal)
 		config.addDefault("destroyOnQuickLoot", destroyOnQuickLoot);
 		config.addDefault("removeTombStone", removeTombStone);
 		config.addDefault("removeTombStoneTime", removeTombStoneTime);
 		config.addDefault("removeTombStoneWhenEmpty", removeTombStoneWhenEmpty);
 		config.addDefault("keepTombStoneUntilEmpty", keepTombStoneUntilEmpty);
 
-// TombStone Features (Security)
+		// TombStone Features (Security)
 		config.addDefault("removeTombStoneSecurity", removeTombStoneSecurity);
 		config.addDefault("removeTombStoneSecurityTimeOut", removeTombStoneSecurityTimeOut);
-// Tomb Features
+		// Tomb Features
 		config.addDefault("enableTomb", enableTomb);
 		config.addDefault("tombCost", tombCost);
 		config.addDefault("maxTomb", maxTomb);
@@ -470,19 +441,16 @@ afterwards parsable again from the configuration class of bukkit
 		config.addDefault("maxDeaths", maxDeaths);
 		config.addDefault("resetTombRespawn", resetTombRespawn);
 		config.addDefault("allowTombAsTeleport", allowTombAsTeleport);
-
 	}
 
-
-// Than we load it....
+	// Than we load it....
 
 	/**
 	 * Method to load the configuration into the config variables
 	 */
-
 	private void loadCustomConfig() {
 
-// Default DeathTpPlus Variables
+		// Default DeathTpPlus Variables
 		ircDeathTpTag = config.getString("ircDeathTpTag");
 		dateFormat = config.getString("dateFormat");
 		timeFormat = config.getString("timeFormat");
@@ -496,7 +464,7 @@ afterwards parsable again from the configuration class of bukkit
 		shouldOnlyUseAirToCreate = config.getBoolean("shouldOnlyUseAirToCreate");
 		integrateIntoDynmap = config.getBoolean("integrateIntoDynmap");
 
-// DeathTpPlus Features
+		// DeathTpPlus Features
 		enableDeathtp = config.getBoolean("enableDeathtp");
 		showDeathNotify = config.getBoolean("showDeathNotify");
 		disableDeathNotifyInSpecifiedWorlds = config.getBoolean("disableDeathNotifyInSpecifiedWorlds");
@@ -514,7 +482,7 @@ afterwards parsable again from the configuration class of bukkit
 		lwcPublic = config.getBoolean("lwcPublic");
 		useDisplayNameforBroadcasts = config.getBoolean("useDisplayNameforBroadcasts");
 		teleportToHighestBlock = config.getBoolean("teleportToHighestBlock");
-// Tombstone Features (General)
+		// Tombstone Features (General)
 		enableTombStone = config.getBoolean("enableTombStone");
 		showTombStoneSign = config.getBoolean("showTombStoneSign");
 		allowTombStoneDestroy = config.getBoolean("allowTombStoneDestroy");
@@ -525,17 +493,17 @@ afterwards parsable again from the configuration class of bukkit
 		creeperProtection = config.getBoolean("creeperProtection");
 		keepExperienceOnQuickLoot = config.getBoolean("keepExperienceOnQuickLoot");
 		keepFullExperience = config.getBoolean("keepFullExperience");
-// Tombstone Features (Removal)
+		// Tombstone Features (Removal)
 		destroyOnQuickLoot = config.getBoolean("destroyOnQuickLoot");
 		removeTombStone = config.getBoolean("removeTombStone");
 		removeTombStoneTime = config.getString("removeTombStoneTime");
 		removeTombStoneWhenEmpty = config.getBoolean("removeTombStoneWhenEmpty");
 		keepTombStoneUntilEmpty = config.getBoolean("keepTombStoneUntilEmpty");
 
-// Tombstone Features (Security)
+		// Tombstone Features (Security)
 		removeTombStoneSecurity = config.getBoolean("removeTombStoneSecurity");
 		removeTombStoneSecurityTimeOut = config.getString("removeTombStoneSecurityTimeOut");
-// Tomb Features
+		// Tomb Features
 		enableTomb = config.getBoolean("enableTomb");
 		tombCost = config.getString("tombCost");
 		maxTomb = config.getInt("maxTomb");
@@ -545,8 +513,7 @@ afterwards parsable again from the configuration class of bukkit
 		resetTombRespawn = config.getBoolean("resetTombRespawn");
 		allowTombAsTeleport = config.getBoolean("allowTombAsTeleport");
 
-
-// Debugging
+		// Debugging
 
 		log.debug("ircDeathTpTag", ircDeathTpTag);
 		log.debug("dateFormat", dateFormat);
@@ -603,7 +570,7 @@ afterwards parsable again from the configuration class of bukkit
 		log.debug("resetTombRespawn", resetTombRespawn);
 		log.debug("allowTombAsTeleport", allowTombAsTeleport);
 
-// and now some working...
+		// and now some working...
 
 		if (shouldOnlyUseAirToCreate) {
 			log.warning("shouldOnlyUseAirToCreate is enabled. This can mean that there will be no Deathsigns or Tombstones being created!");
@@ -629,12 +596,10 @@ afterwards parsable again from the configuration class of bukkit
 		}
 	}
 
-// And than we write it....
-
+	// And than we write it....
 
 	/**
 	 * Method to write the custom config variables into the config file
-	 *
 	 * @param stream will be handed over by  writeConfig
 	 */
 	private void writeCustomConfig(PrintWriter stream) {
@@ -742,7 +707,6 @@ afterwards parsable again from the configuration class of bukkit
 		stream.println("teleportToHighestBlock: " + teleportToHighestBlock);
 		stream.println();
 
-
 		stream.println("#--------- TombStone Features (General)");
 		stream.println();
 		stream.println("# Enable TombStone Feature");
@@ -834,17 +798,13 @@ afterwards parsable again from the configuration class of bukkit
 		stream.println("# Please Note: This only works if DeathTP is also enabled.");
 		stream.println("allowTombAsTeleport: " + allowTombAsTeleport);
 		stream.println();
-
 	}
 
+	// *******************************************************************************************************
 
-// *******************************************************************************************************
+	// And now you need to create the getters and setters if needed for your config variables
 
-// And now you need to create the getters and setters if needed for your config variables
-
-
-// The plugin specific getters start here!
-
+	// The plugin specific getters start here!
 
 	public boolean isKeepFullExperience() {
 		return keepFullExperience;
@@ -889,7 +849,6 @@ afterwards parsable again from the configuration class of bukkit
 	public boolean isKeepExperienceOnQuickLoot() {
 		return keepExperienceOnQuickLoot;
 	}
-
 
 	public boolean isUseDisplayNameforBroadcasts() {
 		return useDisplayNameforBroadcasts;
@@ -956,10 +915,10 @@ afterwards parsable again from the configuration class of bukkit
 	}
 
 	public boolean isPlaySounds() {
-        return playSounds;
-    }
+		return playSounds;
+	}
 
-    public String getChargeItem() {
+	public String getChargeItem() {
 		return chargeItem;
 	}
 
@@ -1063,10 +1022,8 @@ afterwards parsable again from the configuration class of bukkit
 		return resetTombRespawn;
 	}
 
-
 	/**
 	 * Method to get the Instance of the Class, if the class hasn't been initialized yet it will.
-	 *
 	 * @return instance of class
 	 */
 	public static ConfigManager getInstance() {
@@ -1080,10 +1037,8 @@ afterwards parsable again from the configuration class of bukkit
 	/**
 	 * Method to get the Instance of the Class and pass over a different name for the config file, if the class
 	 * hasn't been initialized yet it will.
-	 *
 	 * @param configuratonFile name of the config file
 	 * @param plugin
-	 *
 	 * @return instance of class
 	 */
 	public static ConfigManager getInstance(String configuratonFile, Plugin plugin) {
@@ -1095,21 +1050,16 @@ afterwards parsable again from the configuration class of bukkit
 		return instance;
 	}
 
+	// Well that's it.... at least in this class... thanks for reading...
 
-// Well that's it.... at least in this class... thanks for reading...
+	// NOTHING TO CHANGE NORMALLY BELOW!!!
 
+	// ToDo.... NOTHING.. you are DONE!
 
-// NOTHING TO CHANGE NORMALLY BELOW!!!
+	// *******************************************************************************************************************
+	// Other Methods no change normally necessary
 
-// ToDo.... NOTHING.. you are DONE!
-
-
-// *******************************************************************************************************************
-// Other Methods no change normally necessary
-
-
-// The class stuff first
-
+	// The class stuff first
 
 	private ConfigManager() {
 
@@ -1119,22 +1069,18 @@ afterwards parsable again from the configuration class of bukkit
 		this.plugin = plugin;
 	}
 
-// than the getters
-
+	// than the getters
 
 	/**
 	 * Method to return the PluginName
-	 *
 	 * @return PluginName
 	 */
-
 	public String pluginName() {
 		return pluginName;
 	}
 
 	/**
 	 * Method to return the PluginVersion
-	 *
 	 * @return PluginVersion
 	 */
 	public String pluginVersion() {
@@ -1143,7 +1089,6 @@ afterwards parsable again from the configuration class of bukkit
 
 	/**
 	 * Method to return the Config File Version
-	 *
 	 * @return configVer  Config File Version
 	 */
 	public String getConfigVer() {
@@ -1152,17 +1097,14 @@ afterwards parsable again from the configuration class of bukkit
 
 	/**
 	 * Method to return if Error Logging is enabled
-	 *
 	 * @return errorLogEnabled
 	 */
-
 	public boolean isInformationLogEnabled() {
 		return informationLogEnabled;
 	}
 
 	/**
 	 * Method to return if Debug Loggin is enabled
-	 *
 	 * @return debugLogEnabled
 	 */
 	public boolean isDebugLogEnabled() {
@@ -1171,7 +1113,6 @@ afterwards parsable again from the configuration class of bukkit
 
 	/**
 	 * Method to return if we are checking for updates
-	 *
 	 * @return checkForUpdate
 	 */
 	public boolean isCheckForUpdate() {
@@ -1180,7 +1121,6 @@ afterwards parsable again from the configuration class of bukkit
 
 	/**
 	 * Method to return if we are AutoUpdating the Config File
-	 *
 	 * @return autoUpdateConfig
 	 */
 	public boolean isAutoUpdateConfig() {
@@ -1189,7 +1129,6 @@ afterwards parsable again from the configuration class of bukkit
 
 	/**
 	 * Method to return if we are saving the config automatically
-	 *
 	 * @return saveConfig
 	 */
 	public boolean isSaveConfig() {
@@ -1198,7 +1137,6 @@ afterwards parsable again from the configuration class of bukkit
 
 	/**
 	 * Method to return if we need to update the config
-	 *
 	 * @return configRequiresUpdate
 	 */
 	public boolean isConfigRequiresUpdate() {
@@ -1216,7 +1154,6 @@ afterwards parsable again from the configuration class of bukkit
 	/**
 	 * Parse the Authors Array into a readable String with ',' and 'and'.
 	 * taken from MultiVerse-core https://github.com/Multiverse/Multiverse-Core
-	 *
 	 * @return
 	 */
 	public String getAuthors() {
@@ -1242,7 +1179,7 @@ afterwards parsable again from the configuration class of bukkit
 
 	// And the rest
 
-// Setting up the config
+	// Setting up the config
 
 	/**
 	 * Method to setup the configuration.
@@ -1252,56 +1189,49 @@ afterwards parsable again from the configuration class of bukkit
 	 * and if {@link #autoUpdateConfig} is true we update the configuration {@link #updateConfig()}
 	 * If {@link #checkForUpdate} is true we check if there is a new version of the plugin {@link #versionCheck()}
 	 * and set {@link #configAvailable} to true
-	 *
 	 * @param fileConfiguration
-	 * @param plugin            references the plugin for this configuration
-	 *
+	 * @param plugin references the plugin for this configuration
 	 * @see #defaultConfig()
 	 * @see #loadConfig()
 	 * @see #updateNecessary()
 	 * @see #updateConfig()
 	 * @see #versionCheck()
 	 */
-
 	public void setupConfig(FileConfiguration fileConfiguration, Plugin plugin) {
 
 		this.plugin = plugin;
 		this.config = fileConfiguration;
-// Checking if config file exists, if not create it
+		// Checking if config file exists, if not create it
 		if (!(new File(plugin.getDataFolder(), configFile)).exists()) {
-			if (checkForUpdate) {
-				PingManager.created();
-			}
 			log.info("Creating default configuration file");
 			defaultConfig();
 		}
 		config = plugin.getConfig();
 		log.debug("config", config);
-// Loading the Defaults all the time do to issues with bukkit configuration class defaults
+		// Loading the Defaults all the time do to issues with bukkit configuration class defaults
 		setupCustomDefaultVariables();
 		log.debug("config", config);
 		customDefaultConfig();
-// Loading the config from file
+		// Loading the config from file
 		loadConfig();
 
-// Checking internal configCurrent and config file configVer
+		// Checking internal configCurrent and config file configVer
 
 		updateNecessary();
-// If config file has new options update it if enabled
+		// If config file has new options update it if enabled
 		if (autoUpdateConfig) {
 			updateConfig();
 		}
-// Also check for New Version of the plugin
+		// Also check for New Version of the plugin
 		if (checkForUpdate) {
 			versionCheck();
 		}
 		configAvailable = true;
 	}
 
+	// Creating the defaults
 
-// Creating the defaults
-
-// Configuring the Default options..
+	// Configuring the Default options..
 
 	/**
 	 * Method to write and create the default configuration.
@@ -1310,11 +1240,9 @@ afterwards parsable again from the configuration class of bukkit
 	 * Than we get the config object from disk
 	 * We are adding the default configuration for the variables and load the
 	 * defaults for the custom variables  #customDefaultConfig()
-	 *
 	 * @see #setupCustomDefaultVariables()
 	 * @see #customDefaultConfig()
 	 */
-
 	private void defaultConfig() {
 		setupCustomDefaultVariables();
 		if (!writeConfig()) {
@@ -1330,8 +1258,7 @@ afterwards parsable again from the configuration class of bukkit
 		customDefaultConfig();
 	}
 
-
-// Loading the configuration
+	// Loading the configuration
 
 	/**
 	 * Method for loading the configuration from disk.
@@ -1340,10 +1267,8 @@ afterwards parsable again from the configuration class of bukkit
 	 * We also log a message if #debugLogEnabled
 	 * and we produce some debug logs.
 	 * After that we load the custom configuration part #loadCustomConfig()
-	 *
 	 * @see #loadCustomConfig()
 	 */
-
 	private void loadConfig() {
 
 		// Starting to update the standard configuration
@@ -1374,19 +1299,15 @@ afterwards parsable again from the configuration class of bukkit
 		log.info("Configuration v." + configVer + " loaded.");
 	}
 
-
-//  Writing the config file
+	//  Writing the config file
 
 	/**
 	 * Method for writing the configuration file.
 	 * First we write the standard configuration part, than we
 	 * write the custom configuration part via #writeCustomConfig()
-	 *
 	 * @return true if writing the config was successful
-	 *
 	 * @see #writeCustomConfig(java.io.PrintWriter)
 	 */
-
 	private boolean writeConfig() {
 		boolean success = false;
 		try {
@@ -1401,7 +1322,7 @@ afterwards parsable again from the configuration class of bukkit
 			pluginName = pdfFile.getName();
 			pluginVersion = pdfFile.getVersion();
 			stream = new PrintWriter(pluginPath + configFile);
-//Let's write our config ;)
+			//Let's write our config ;)
 			stream.println("# " + pluginName + " " + pdfFile.getVersion() + " by " + authors);
 			stream.println("#");
 			stream.println("# Configuration File for " + pluginName + ".");
@@ -1424,8 +1345,6 @@ afterwards parsable again from the configuration class of bukkit
 			stream.println();
 			stream.println("# Check for Update");
 			stream.println("# Will check if there is a new version of the plugin out.");
-			stream.println("# Please note: This will also track usage of reloads, config creation and updates of this version of the plugin via");
-			stream.println("# " + PINGS.BUNDLE.getURL());
 			stream.println("# Please disable this feature if you don't like this!");
 			stream.println("checkForUpdate: " + checkForUpdate);
 			stream.println();
@@ -1439,7 +1358,7 @@ afterwards parsable again from the configuration class of bukkit
 			stream.println("saveConfig: " + saveConfig);
 			stream.println();
 
-// Getting the custom config information from the top of the class
+			// Getting the custom config information from the top of the class
 			writeCustomConfig(stream);
 
 			stream.println();
@@ -1447,7 +1366,6 @@ afterwards parsable again from the configuration class of bukkit
 			stream.close();
 
 			success = true;
-
 		} catch (FileNotFoundException e) {
 			log.warning("Error saving the " + configFile + ".");
 		}
@@ -1455,8 +1373,7 @@ afterwards parsable again from the configuration class of bukkit
 		return success;
 	}
 
-
-// Checking if the configVersions differ
+	// Checking if the configVersions differ
 
 	/**
 	 * Method to check if the configuration version are different.
@@ -1474,12 +1391,11 @@ afterwards parsable again from the configuration class of bukkit
 		}
 	}
 
-// Checking the Current Version via the Web
+	// Checking the Current Version via the Web
 
 	/**
 	 * Method to figure out if we are out of date or running on an older / newer build of CB
 	 */
-
 	private boolean versionCheck() {
 
 		differentPluginAvailable = false;
@@ -1601,20 +1517,16 @@ afterwards parsable again from the configuration class of bukkit
 		} else {
 			log.info("I have no idea if I'm uptodate, sorry!");
 		}
-		PingManager.enabled();
 		return false;
 	}
 
-// Updating the config
+	// Updating the config
 
 	/**
 	 * Method to update the configuration if it is necessary.
 	 */
 	private void updateConfig() {
 		if (configRequiresUpdate) {
-			if (checkForUpdate) {
-				PingManager.update();
-			}
 			configVer = configCurrent;
 			if (writeConfig()) {
 				log.info("Configuration was updated with new default values.");
@@ -1626,14 +1538,12 @@ afterwards parsable again from the configuration class of bukkit
 		}
 	}
 
-// Reloading the config
+	// Reloading the config
 
 	/**
 	 * Method to reload the configuration.
-	 *
 	 * @return msg with the status of the reload
 	 */
-
 	public String reloadConfig() {
 		String msg;
 		if (configAvailable) {
@@ -1647,12 +1557,10 @@ afterwards parsable again from the configuration class of bukkit
 		}
 		return msg;
 	}
-// Saving the config
-
+	// Saving the config
 
 	/**
 	 * Method to save the config to file.
-	 *
 	 * @return true if the save was successful
 	 */
 	public boolean saveConfig() {
@@ -1663,9 +1571,7 @@ afterwards parsable again from the configuration class of bukkit
 		return saved;
 	}
 
-    public static List<String> checkList(List<String> path, List<String> def) {
-        return path != null ? path : def;
-    }
-
-
+	public static List<String> checkList(List<String> path, List<String> def) {
+		return path != null ? path : def;
+	}
 }
