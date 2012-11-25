@@ -38,7 +38,7 @@ public class DeathMessages {
 
 	// ToDo add new DeathMethods if they come up
 	public static enum DeathEventType {
-		BLOCK_EXPLOSION, ENTITY_EXPLOSION, CAVE_SPIDER, CONTACT, CREEPER, DROWNING, ENDERMAN, FALL, FIRE, FIRE_TICK, GHAST, GIANT, LAVA, LIGHTNING, MONSTER, PIG_ZOMBIE, PVP, PVP_FISTS, PVP_TAMED, SILVERFISH, SKELETON, SLIME, SPIDER, STARVATION, SUFFOCATION, SUICIDE, UNKNOWN, VOID, WOLF, ZOMBIE, BLAZE, MAGMA_CUBE, ENDERDRAGON, DISPENSER, POISON, MAGIC, IRON_GOLEM
+		BLOCK_EXPLOSION, ENTITY_EXPLOSION, CAVE_SPIDER, CONTACT, CREEPER, DROWNING, ENDERMAN, FALL, FIRE, FIRE_TICK, GHAST, GIANT, LAVA, LIGHTNING, MONSTER, PIG_ZOMBIE, PVP, PVP_FISTS, PVP_TAMED, SILVERFISH, SKELETON, SLIME, SPIDER, STARVATION, SUFFOCATION, SUICIDE, UNKNOWN, VOID, WOLF, ZOMBIE, BLAZE, MAGMA_CUBE, ENDERDRAGON, DISPENSER, POISON, MAGIC, IRON_GOLEM, WITCH, WITHER_SKELETON, WITHER
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class DeathMessages {
 	/**
 	 * This is the internal deathMessageFileConfig version
 	 */
-	private final String deathMessagesCurrent = "3.5";
+	private final String deathMessagesCurrent = "4.0";
 	/**
 	 * This is the DEFAULT for the deathMessageFileConfig file version, should be the same as deathMessagesCurrent. Will afterwards be changed
 	 */
@@ -288,6 +288,21 @@ public class DeathMessages {
 	 * Array which holds default IronGolem messages
 	 */
 	private String[] defaultIronGolemMessages;
+
+    /**
+     * Array which holds default Witch messages
+     */
+    private String[] defaultWitchMessages;
+
+    /**
+     * Array which holds default Wither Skeleton messages
+     */
+    private String[] defaultWitherSkeletonMessages;
+
+    /**
+     * Array which holds default Wither messages
+     */
+    private String[] defaultWitherMessages;
 
 
 	// ToDo add new variables on top
@@ -800,6 +815,32 @@ afterwards parsable again from the configuration class of bukkit
 		};
 		deathMessages.put(DeathEventType.IRON_GOLEM, Arrays.asList(defaultIronGolemMessages));
 
+        /** Creating the default Witch Kill messages*/
+        defaultWitchMessages = new String[]{
+                "&5%n&7 got bewitched!",
+                "Never mess with the pointy hat, &5%n&7",
+                "&5%n&7, that wasn't a swamp monster.",
+                "&5%n&7 thought is was a good idea to make comments about good looks."
+        };
+        deathMessages.put(DeathEventType.WITCH, Arrays.asList(defaultWitchMessages));
+
+        /** Creating the default Wither Skeleton Kill messages*/
+        defaultWitherSkeletonMessages = new String[]{
+                "&5%n&7 got killed by a black Skeleton!",
+                "&5%n&7 should take more fencing lessons.",
+                "&5%n&7 was hit by a stone butter slicer."
+        };
+        deathMessages.put(DeathEventType.WITHER_SKELETON, Arrays.asList(defaultWitherSkeletonMessages));
+
+        /** Creating the default Wither Kill messages*/
+        defaultWitherMessages = new String[]{
+                "&5%n&7 got killed by poisoned projectile!",
+                "A thing born from sand killed &5%n&7",
+                "&5%n&7 shouldn't have called the wind.",
+                "&5%n&7 was withered."
+        };
+        deathMessages.put(DeathEventType.WITHER, Arrays.asList(defaultWitherMessages));
+
 		// ToDo add new messages on top
 	}
 
@@ -888,6 +929,9 @@ afterwards parsable again from the configuration class of bukkit
 		deathMessages.put(DeathEventType.POISON, ConfigManager.checkList(deathMessageFileConfig.getStringList("poison"), Arrays.asList(defaultPosionMessages)));
 		deathMessages.put(DeathEventType.MAGIC, ConfigManager.checkList(deathMessageFileConfig.getStringList("magic"), Arrays.asList(defaultMagicMessages)));
 		deathMessages.put(DeathEventType.IRON_GOLEM, ConfigManager.checkList(deathMessageFileConfig.getStringList("irongolem"), Arrays.asList(defaultIronGolemMessages)));
+        deathMessages.put(DeathEventType.WITCH, ConfigManager.checkList(deathMessageFileConfig.getStringList("witch"), Arrays.asList(defaultWitchMessages)));
+        deathMessages.put(DeathEventType.WITHER_SKELETON, ConfigManager.checkList(deathMessageFileConfig.getStringList("witherskeleton"), Arrays.asList(defaultWitherSkeletonMessages)));
+        deathMessages.put(DeathEventType.WITHER, ConfigManager.checkList(deathMessageFileConfig.getStringList("wither"), Arrays.asList(defaultWitherMessages)));
 
 		//ToDo add new deathMessages to the top
 		int totalMessages = 0;
@@ -1036,7 +1080,9 @@ afterwards parsable again from the configuration class of bukkit
 			return "pigzombie";
 		} else if (deathEventType == DeathEventType.IRON_GOLEM) {
 			return "irongolem";
-		}
+		} else  if (deathEventType == DeathEventType.WITHER_SKELETON) {
+            return "witherskeleton";
+        }
 
 		String nodeName = deathEventType.toString().toLowerCase();
 		if (!deathEventType.toString().equals("BLOCK_EXPLOSION") && !deathEventType.toString().equals("FIRE_TICK")) {

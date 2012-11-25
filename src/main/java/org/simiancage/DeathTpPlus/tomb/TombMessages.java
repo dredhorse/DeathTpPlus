@@ -80,7 +80,7 @@ public class TombMessages {
 	/**
 	 * This is the internal tombMessages version
 	 */
-	private final String tombMessagesCurrent = "3.5";
+	private final String tombMessagesCurrent = "4.0";
 	/**
 	 * This is the DEFAULT for the tombMessages file version, should be the same as tombMessagesCurrent. Will afterwards be changed
 	 */
@@ -236,6 +236,21 @@ public class TombMessages {
 	 * Array which hold default IronGolem messages
 	 */
 	private String[] defaultIronGolemMessages;
+
+    /**
+     * Array which holds default Witch messages
+     */
+    private String[] defaultWitchMessages;
+
+    /**
+     * Array which holds default Wither Skeleton messages
+     */
+    private String[] defaultWitherSkeletonMessages;
+
+    /**
+     * Array which holds default Wither messages
+     */
+    private String[] defaultWitherMessages;
 
 
 	// ToDo add new variables to the top
@@ -495,6 +510,28 @@ afterwards parsable again from the configuration class of bukkit
 		};
 		deathevents.put(DeathEventType.IRON_GOLEM, Arrays.asList(defaultIronGolemMessages));
 
+        /** Creating the default Witch Messages*/
+        defaultWitchMessages = new String[]{
+                "bewitched",
+                "poisoned",
+                "met a witch"
+        };
+        deathevents.put(DeathEventType.WITCH, Arrays.asList(defaultWitchMessages));
+
+        /** Creating the default Wither Skeleton Messages*/
+        defaultWitherSkeletonMessages = new String[]{
+                "stoned",
+                "nethered"
+        };
+        deathevents.put(DeathEventType.WITHER_SKELETON, Arrays.asList(defaultWitherSkeletonMessages));
+
+        /** Creating the default Wither Messages*/
+        defaultWitherMessages = new String[]{
+                "withered",
+                "met a wither"
+        };
+        deathevents.put(DeathEventType.WITHER, Arrays.asList(defaultWitherMessages));
+
 		// ToDo add new tomb messages to the top
 
 	}
@@ -561,6 +598,9 @@ afterwards parsable again from the configuration class of bukkit
 		deathevents.put(DeathEventType.POISON, ConfigManager.checkList(tombMessages.getStringList("poison"), Arrays.asList(defaultPoisionMessages)));
 		deathevents.put(DeathEventType.MAGIC, ConfigManager.checkList(tombMessages.getStringList("magic"), Arrays.asList(defaultMagicMessages)));
 		deathevents.put(DeathEventType.IRON_GOLEM, ConfigManager.checkList(tombMessages.getStringList("irongolem"), Arrays.asList(defaultIronGolemMessages)));
+        deathevents.put(DeathEventType.WITCH, ConfigManager.checkList(tombMessages.getStringList("witch"), Arrays.asList(defaultWitchMessages)));
+        deathevents.put(DeathEventType.WITHER_SKELETON, ConfigManager.checkList(tombMessages.getStringList("witherskeleton"), Arrays.asList(defaultWitherSkeletonMessages)));
+        deathevents.put(DeathEventType.WITHER, ConfigManager.checkList(tombMessages.getStringList("wither"), Arrays.asList(defaultWitherMessages)));
 
 		// ToDo add new deathevents on top
 // Debugging

@@ -52,13 +52,18 @@ public class DeathDetail {
 						causeOfDeath = DeathEventType.PVP_TAMED;
 						murderWeapon = damager.getType().toString();
 						killer = (Player) ((Tameable) damager).getOwner();
-
 					} else {
-
 						try {
-
 							causeOfDeath = DeathEventType.valueOf(damager.getType().toString());
-						} catch (IllegalArgumentException iae) {
+                            if (damager instanceof Skeleton) {
+                                Skeleton.SkeletonType skeletonType = ((Skeleton) damager).getSkeletonType();
+                                if (skeletonType == Skeleton.SkeletonType.NORMAL) {
+                                    causeOfDeath = DeathEventType.SKELETON;
+                                }  else {
+                                    causeOfDeath = DeathEventType.WITHER_SKELETON;
+                                }
+                            }
+                        } catch (IllegalArgumentException iae) {
 							log.severe("Please notify the developer of the following Error:");
 							log.severe("The following damager is not correctly implemented: " + damager.getType().toString());
 							causeOfDeath = DeathEventType.UNKNOWN;
