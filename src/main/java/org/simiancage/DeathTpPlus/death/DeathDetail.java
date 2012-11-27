@@ -3,6 +3,7 @@ package org.simiancage.DeathTpPlus.death;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.*;
+import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -56,12 +57,12 @@ public class DeathDetail {
 						try {
 							causeOfDeath = DeathEventType.valueOf(damager.getType().toString());
                             if (damager instanceof Skeleton) {
-                                Skeleton.SkeletonType skeletonType = ((Skeleton) damager).getSkeletonType();
-                                if (skeletonType == Skeleton.SkeletonType.NORMAL) {
-                                    causeOfDeath = DeathEventType.SKELETON;
-                                }  else {
-                                    causeOfDeath = DeathEventType.WITHER_SKELETON;
-                                }
+                            	Skeleton skeleton = (Skeleton) damager;
+                            	causeOfDeath = skeleton.getSkeletonType() == SkeletonType.WITHER ? DeathEventType.WITHER_SKELETON : DeathEventType.SKELETON;
+                            }
+                            else if (damager instanceof Zombie) {
+                            	Zombie zombie = (Zombie) damager;
+                            	causeOfDeath = zombie.isVillager() ? DeathEventType.ZOMBIE_VILLAGER : DeathEventType.ZOMBIE;
                             }
                         } catch (IllegalArgumentException iae) {
 							log.severe("Please notify the developer of the following Error:");

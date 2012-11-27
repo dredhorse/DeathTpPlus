@@ -38,7 +38,7 @@ public class DeathMessages {
 
 	// ToDo add new DeathMethods if they come up
 	public static enum DeathEventType {
-		BLOCK_EXPLOSION, ENTITY_EXPLOSION, CAVE_SPIDER, CONTACT, CREEPER, DROWNING, ENDERMAN, FALL, FIRE, FIRE_TICK, GHAST, GIANT, LAVA, LIGHTNING, MONSTER, PIG_ZOMBIE, PVP, PVP_FISTS, PVP_TAMED, SILVERFISH, SKELETON, SLIME, SPIDER, STARVATION, SUFFOCATION, SUICIDE, UNKNOWN, VOID, WOLF, ZOMBIE, BLAZE, MAGMA_CUBE, ENDERDRAGON, DISPENSER, POISON, MAGIC, IRON_GOLEM, WITCH, WITHER_SKELETON, WITHER
+		BLOCK_EXPLOSION, ENTITY_EXPLOSION, CAVE_SPIDER, CONTACT, CREEPER, DROWNING, ENDERMAN, FALL, FIRE, FIRE_TICK, GHAST, GIANT, LAVA, LIGHTNING, MONSTER, PIG_ZOMBIE, PVP, PVP_FISTS, PVP_TAMED, SILVERFISH, SKELETON, SLIME, SPIDER, STARVATION, SUFFOCATION, SUICIDE, UNKNOWN, VOID, WOLF, ZOMBIE, ZOMBIE_VILLAGER, BLAZE, MAGMA_CUBE, ENDERDRAGON, DISPENSER, POISON, MAGIC, IRON_GOLEM, WITCH, WITHER_SKELETON, WITHER
 	}
 
 	/**
@@ -176,6 +176,10 @@ public class DeathMessages {
 	 * Array which holds default zombie messages
 	 */
 	private String[] defaultZombieMessages;
+	/**
+	 * Array which holds default villager zombie messages
+	 */
+	private String[] defaultZombieVillagerMessages;
 	/**
 	 * Array which holds default PVP messages
 	 */
@@ -556,6 +560,16 @@ afterwards parsable again from the configuration class of bukkit
 				"&5%n&7 should have invested in a shotgun."
 		};
 		deathMessages.put(DeathEventType.ZOMBIE, Arrays.asList(defaultZombieMessages));
+		/** Creating the default zombie villager messages*/
+		defaultZombieVillagerMessages = new String[]{
+				"&5%n&7 was punched to death by villager zombies!",
+				"&5%n&7 was bitten by a villager zombie!",
+				"&5%n&7 fell to the hunger of the villager horde!",
+				"&5%n&7 Hasn't played enough L4D2!",
+				"&5%n&7 couldn't run faster than the villager zombie!",
+				"&5%n&7 should have invested in a shotgun."
+		};
+		deathMessages.put(DeathEventType.ZOMBIE_VILLAGER, Arrays.asList(defaultZombieVillagerMessages));
 		/** Creating the default pvp messages*/
 		defaultPVPMessages = new String[]{
 				"&f%a&7 killed &5%n&7 using a(n) &3%i&7!",
@@ -903,6 +917,7 @@ afterwards parsable again from the configuration class of bukkit
 		deathMessages.put(DeathEventType.SKELETON, ConfigManager.checkList(deathMessageFileConfig.getStringList("skeleton"), Arrays.asList(defaultSkeletonMessages)));
 		deathMessages.put(DeathEventType.SPIDER, ConfigManager.checkList(deathMessageFileConfig.getStringList("spider"), Arrays.asList(defaultSpiderMessages)));
 		deathMessages.put(DeathEventType.ZOMBIE, ConfigManager.checkList(deathMessageFileConfig.getStringList("zombie"), Arrays.asList(defaultZombieMessages)));
+		deathMessages.put(DeathEventType.ZOMBIE_VILLAGER, ConfigManager.checkList(deathMessageFileConfig.getStringList("zombievillager"), Arrays.asList(defaultZombieVillagerMessages)));
 		deathMessages.put(DeathEventType.PVP, ConfigManager.checkList(deathMessageFileConfig.getStringList("pvp"), Arrays.asList(defaultPVPMessages)));
 		deathMessages.put(DeathEventType.PVP_FISTS, ConfigManager.checkList(deathMessageFileConfig.getStringList("pvp-fists"), Arrays.asList(defaultPVPFistMessages)));
 		deathMessages.put(DeathEventType.BLOCK_EXPLOSION, ConfigManager.checkList(deathMessageFileConfig.getStringList("block_explosion"), Arrays.asList(defaultBlockExplosionMessages)));
