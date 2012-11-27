@@ -142,7 +142,7 @@ public class PlayerInteractHandler {
 		}
 
 		// Manually update inventory for the time being.
-		event.getPlayer().updateInventory();
+		updatePlayerInventory(event);
 		plugin.sendMessage(event.getPlayer(), "Tombstone quicklooted!");
 		Location location = tStoneBlock.getBlock().getLocation();
 		String loc = location.getWorld().getName();
@@ -151,6 +151,11 @@ public class PlayerInteractHandler {
 		loc = loc + ", z=" + location.getBlock().getZ();
 		log.debug(event.getPlayer().getName() + " quicklooted tombstone at "
 				+ loc);
+	}
+
+	@SuppressWarnings("deprecation")
+	private void updatePlayerInventory(PlayerInteractEvent event) {
+		event.getPlayer().updateInventory();
 	}
 
 	public void playerInteractTomb(PlayerInteractEvent event) {
