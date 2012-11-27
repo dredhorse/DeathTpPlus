@@ -151,11 +151,9 @@ public class ServerListener implements Listener {
 			if (checkDynMap.isEnabled() && plugin.isDynmapEnabled() && !plugin.isDynmapActive()) {
 				DynmapAPI api = (DynmapAPI) checkDynMap; /* Get API */
 				log.debug("dynMapApi", api);
-				if (api == null) {
-					if (dynMapNotReady) {
-						log.info("DynMap not ready yet.. waiting");
-						dynMapNotReady = false;
-					}
+				if (dynMapNotReady) {
+					log.info("DynMap not ready yet.. waiting");
+					dynMapNotReady = false;
 				} else {
 					log.info("DynMap ready!");
 					plugin.setDynmapAPI(api);
