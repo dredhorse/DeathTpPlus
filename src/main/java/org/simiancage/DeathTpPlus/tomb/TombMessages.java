@@ -134,6 +134,10 @@ public class TombMessages {
 	 */
 	private String[] defaultZombieMessages;
 	/**
+	 * Array which holds default zombie messages
+	 */
+	private String[] defaultZombieVillagerMessages;
+	/**
 	 * Array which holds default PVP messages
 	 */
 	private String[] defaultPVPMessages;
@@ -344,6 +348,13 @@ afterwards parsable again from the configuration class of bukkit
 				"Zombie rules"
 		};
 		deathevents.put(DeathEventType.ZOMBIE, Arrays.asList(defaultZombieMessages));
+		/** Creating the default zombie villager messages*/
+		defaultZombieVillagerMessages = new String[]{
+				"L4D",
+				"Braaaiiin",
+				"Zombie rules"
+		};
+		deathevents.put(DeathEventType.ZOMBIE, Arrays.asList(defaultZombieVillagerMessages));
 		/** Creating the default pvp messages*/
 		defaultPVPMessages = new String[]{
 				"Killed by %a"
@@ -573,6 +584,7 @@ afterwards parsable again from the configuration class of bukkit
 		deathevents.put(DeathEventType.SKELETON, ConfigManager.checkList(tombMessages.getStringList("skeleton"), Arrays.asList(defaultSkeletonMessages)));
 		deathevents.put(DeathEventType.SPIDER, ConfigManager.checkList(tombMessages.getStringList("spider"), Arrays.asList(defaultSpiderMessages)));
 		deathevents.put(DeathEventType.ZOMBIE, ConfigManager.checkList(tombMessages.getStringList("zombie"), Arrays.asList(defaultZombieMessages)));
+		deathevents.put(DeathEventType.ZOMBIE_VILLAGER, ConfigManager.checkList(tombMessages.getStringList("zombievillager"), Arrays.asList(defaultZombieVillagerMessages)));
 		deathevents.put(DeathEventType.PVP, ConfigManager.checkList(tombMessages.getStringList("pvp"), Arrays.asList(defaultPVPMessages)));
 		deathevents.put(DeathEventType.BLOCK_EXPLOSION, ConfigManager.checkList(tombMessages.getStringList("block_explosion"), Arrays.asList(defaultBlockExplosionMessages)));
 		deathevents.put(DeathEventType.ENTITY_EXPLOSION, ConfigManager.checkList(tombMessages.getStringList("entity_explosion"), Arrays.asList(defaultEntityExplosionMessages)));
