@@ -1111,7 +1111,7 @@ afterwards parsable again from the configuration class of bukkit
 		String message;
 		List<String> messages = deathMessages.get(deathDetail.getCauseOfDeath());
 
-		if (messages == null) {
+		if (messages == null || messages.size() < 1) {
 			message = DEFAULT_DEATH_MESSAGE;
 		} else {
 			if (config.isUseDisplayNameforBroadcasts()) {
