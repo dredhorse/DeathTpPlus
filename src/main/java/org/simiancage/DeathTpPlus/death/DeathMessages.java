@@ -687,7 +687,7 @@ afterwards parsable again from the configuration class of bukkit
 		/** Creating the default lightning messages*/
 		defaultLightningMessages = new String[]{
 				"&5%n&7 was struck down by Zeus' bolt.",
-				"&5%n&7 was electrecuted.",
+				"&5%n&7 was electrocuted.",
 				"&5%n&7 figured out that it wasn't a pig's nose in the wall."
 		};
 		/** Creating the default lightning messages*/
@@ -706,7 +706,7 @@ afterwards parsable again from the configuration class of bukkit
 				"&5%n&7 was killed by Chuck Norris",
 				"&5%n&7 was running with scissors...now he runs no more",
 				"&5%n&7 was hit by a falling piano",
-				"&5%n&7 was assasinated by a shuriken headshot from the shadow",
+				"&5%n&7 was assassinated by a shuriken headshot from the shadow",
 				"&5%n&7 was barrel rolling...and died",
 				"&5%n&7 was killed by Cthulhu",
 				"&5%n&7 forgot to wear his spacesuit",
@@ -917,7 +917,7 @@ afterwards parsable again from the configuration class of bukkit
 		deathMessages.put(DeathEventType.SKELETON, ConfigManager.checkList(deathMessageFileConfig.getStringList("skeleton"), Arrays.asList(defaultSkeletonMessages)));
 		deathMessages.put(DeathEventType.SPIDER, ConfigManager.checkList(deathMessageFileConfig.getStringList("spider"), Arrays.asList(defaultSpiderMessages)));
 		deathMessages.put(DeathEventType.ZOMBIE, ConfigManager.checkList(deathMessageFileConfig.getStringList("zombie"), Arrays.asList(defaultZombieMessages)));
-		deathMessages.put(DeathEventType.ZOMBIE_VILLAGER, ConfigManager.checkList(deathMessageFileConfig.getStringList("zombievillager"), Arrays.asList(defaultZombieVillagerMessages)));
+		deathMessages.put(DeathEventType.ZOMBIE_VILLAGER, ConfigManager.checkList(deathMessageFileConfig.getStringList("zombie-villager"), Arrays.asList(defaultZombieVillagerMessages)));
 		deathMessages.put(DeathEventType.PVP, ConfigManager.checkList(deathMessageFileConfig.getStringList("pvp"), Arrays.asList(defaultPVPMessages)));
 		deathMessages.put(DeathEventType.PVP_FISTS, ConfigManager.checkList(deathMessageFileConfig.getStringList("pvp-fists"), Arrays.asList(defaultPVPFistMessages)));
 		deathMessages.put(DeathEventType.BLOCK_EXPLOSION, ConfigManager.checkList(deathMessageFileConfig.getStringList("block_explosion"), Arrays.asList(defaultBlockExplosionMessages)));
@@ -939,7 +939,7 @@ afterwards parsable again from the configuration class of bukkit
 		deathMessages.put(DeathEventType.GIANT, ConfigManager.checkList(deathMessageFileConfig.getStringList("giant"), Arrays.asList(defaultGiantMessages)));
 		deathMessages.put(DeathEventType.BLAZE, ConfigManager.checkList(deathMessageFileConfig.getStringList("blaze"), Arrays.asList(defaultBlazeMessages)));
 		deathMessages.put(DeathEventType.ENDERDRAGON, ConfigManager.checkList(deathMessageFileConfig.getStringList("enderdragon"), Arrays.asList(defaultEnderDragonMessages)));
-		deathMessages.put(DeathEventType.MAGMA_CUBE, ConfigManager.checkList(deathMessageFileConfig.getStringList("magmacube"), Arrays.asList(defaultMagmaCubeMessages)));
+		deathMessages.put(DeathEventType.MAGMA_CUBE, ConfigManager.checkList(deathMessageFileConfig.getStringList("magma-cube"), Arrays.asList(defaultMagmaCubeMessages)));
 		deathMessages.put(DeathEventType.DISPENSER, ConfigManager.checkList(deathMessageFileConfig.getStringList("dispenser"), Arrays.asList(defaultDispenserMessages)));
 		deathMessages.put(DeathEventType.POISON, ConfigManager.checkList(deathMessageFileConfig.getStringList("poison"), Arrays.asList(defaultPosionMessages)));
 		deathMessages.put(DeathEventType.MAGIC, ConfigManager.checkList(deathMessageFileConfig.getStringList("magic"), Arrays.asList(defaultMagicMessages)));

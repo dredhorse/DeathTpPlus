@@ -354,7 +354,7 @@ afterwards parsable again from the configuration class of bukkit
 				"Braaaiiin",
 				"Zombie rules"
 		};
-		deathevents.put(DeathEventType.ZOMBIE, Arrays.asList(defaultZombieVillagerMessages));
+		deathevents.put(DeathEventType.ZOMBIE_VILLAGER, Arrays.asList(defaultZombieVillagerMessages));
 		/** Creating the default pvp messages*/
 		defaultPVPMessages = new String[]{
 				"Killed by %a"
@@ -584,10 +584,10 @@ afterwards parsable again from the configuration class of bukkit
 		deathevents.put(DeathEventType.SKELETON, ConfigManager.checkList(tombMessages.getStringList("skeleton"), Arrays.asList(defaultSkeletonMessages)));
 		deathevents.put(DeathEventType.SPIDER, ConfigManager.checkList(tombMessages.getStringList("spider"), Arrays.asList(defaultSpiderMessages)));
 		deathevents.put(DeathEventType.ZOMBIE, ConfigManager.checkList(tombMessages.getStringList("zombie"), Arrays.asList(defaultZombieMessages)));
-		deathevents.put(DeathEventType.ZOMBIE_VILLAGER, ConfigManager.checkList(tombMessages.getStringList("zombievillager"), Arrays.asList(defaultZombieVillagerMessages)));
+		deathevents.put(DeathEventType.ZOMBIE_VILLAGER, ConfigManager.checkList(tombMessages.getStringList("zombie-villager"), Arrays.asList(defaultZombieVillagerMessages)));
 		deathevents.put(DeathEventType.PVP, ConfigManager.checkList(tombMessages.getStringList("pvp"), Arrays.asList(defaultPVPMessages)));
 		deathevents.put(DeathEventType.BLOCK_EXPLOSION, ConfigManager.checkList(tombMessages.getStringList("block_explosion"), Arrays.asList(defaultBlockExplosionMessages)));
-		deathevents.put(DeathEventType.ENTITY_EXPLOSION, ConfigManager.checkList(tombMessages.getStringList("entity_explosion"), Arrays.asList(defaultEntityExplosionMessages)));
+		deathevents.put(DeathEventType.ENTITY_EXPLOSION, ConfigManager.checkList(tombMessages.getStringList("entity-explosion"), Arrays.asList(defaultEntityExplosionMessages)));
 		deathevents.put(DeathEventType.CONTACT, ConfigManager.checkList(tombMessages.getStringList("contact"), Arrays.asList(defaultContactMessages)));
 		deathevents.put(DeathEventType.GHAST, ConfigManager.checkList(tombMessages.getStringList("ghast"), Arrays.asList(defaultGhastMessages)));
 		deathevents.put(DeathEventType.SLIME, ConfigManager.checkList(tombMessages.getStringList("slime"), Arrays.asList(defaultSlimeMessages)));
@@ -605,7 +605,7 @@ afterwards parsable again from the configuration class of bukkit
 		deathevents.put(DeathEventType.GIANT, ConfigManager.checkList(tombMessages.getStringList("giant"), Arrays.asList(defaultGiantMessages)));
 		deathevents.put(DeathEventType.BLAZE, ConfigManager.checkList(tombMessages.getStringList("blaze"), Arrays.asList(defaultBlazeMessages)));
 		deathevents.put(DeathEventType.ENDERDRAGON, ConfigManager.checkList(tombMessages.getStringList("enderdragon"), Arrays.asList(defaultEnderDragonMessages)));
-		deathevents.put(DeathEventType.MAGMA_CUBE, ConfigManager.checkList(tombMessages.getStringList("magmacube"), Arrays.asList(defaultMagmaCubeMessages)));
+		deathevents.put(DeathEventType.MAGMA_CUBE, ConfigManager.checkList(tombMessages.getStringList("magma-cube"), Arrays.asList(defaultMagmaCubeMessages)));
 		deathevents.put(DeathEventType.DISPENSER, ConfigManager.checkList(tombMessages.getStringList("dispenser"), Arrays.asList(defaultDispenserMessages)));
 		deathevents.put(DeathEventType.POISON, ConfigManager.checkList(tombMessages.getStringList("poison"), Arrays.asList(defaultPoisionMessages)));
 		deathevents.put(DeathEventType.MAGIC, ConfigManager.checkList(tombMessages.getStringList("magic"), Arrays.asList(defaultMagicMessages)));
