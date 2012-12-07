@@ -9,20 +9,15 @@ package org.simiancage.DeathTpPlus.commons;
  *
  */
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
-
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
 
 /**
  * The ConfigManager Class allows you to write a custom config file for craftbukkit plugins incl. comments.
@@ -1513,15 +1508,16 @@ public class ConfigManager {
 			if ((githubMajor < pluginMajor) || githubMinor < pluginMinor || githubDev < pluginDev || pluginDev > 0) {
 				log.warning("You are running an dev-build. Be sure you know what you are doing!");
 				log.warning("Please report any bugs via issues or tickets!");
-				if (githubDev > pluginDev) {
+                boolean sameMajorMinor = (githubMajor == pluginMajor) && (githubMinor == pluginMinor);
+                if ((githubDev > pluginDev) && sameMajorMinor) {
 					log.warning("There is a NEWER dev-build available!");
 				}
-				if (githubDev < pluginDev) {
+				if ((githubDev < pluginDev) && sameMajorMinor) {
 					log.severe("WOW! Where did you get THIS version from?");
 					log.severe("You like living on the edge, do you?");
 				}
 			}
-			if ((githubMajor > pluginMajor) || githubMinor > pluginMinor) {
+			if ((githubMajor > pluginMajor) && githubMinor > pluginMinor) {
 
 				log.warning("is out of date!");
 				log.warning("This version: " + pluginVersion + "; latest version: " + newVersion + ".");
