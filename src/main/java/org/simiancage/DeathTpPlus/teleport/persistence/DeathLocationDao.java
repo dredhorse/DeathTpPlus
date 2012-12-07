@@ -1,21 +1,14 @@
 package org.simiancage.DeathTpPlus.teleport.persistence;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
-
 import org.bukkit.Bukkit;
 import org.simiancage.DeathTpPlus.DeathTpPlus;
 import org.simiancage.DeathTpPlus.commons.DefaultLogger;
 import org.simiancage.DeathTpPlus.death.DeathDetail;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * PluginName: DeathTpPlus
@@ -54,16 +47,20 @@ public class DeathLocationDao implements Runnable {
     }
 
     private void load() {
+        int counter = 0;
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(deathLocationLogFile), CHARSET));
             String line = null;
 
             while ((line = bufferedReader.readLine()) != null) {
+                log.debug("DeathLocation: ",line);
+                ++counter;
                 DeathLocation deathLocation = new DeathLocation(line);
                 deathLocations.put(deathLocation.getPlayerName(), deathLocation);
             }
 
             bufferedReader.close();
+            log.debug(counter + " DeathLocations loaded");
         }
         catch (IOException e) {
             log.severe("Failed to read death location log: " + e.toString());
@@ -75,6 +72,7 @@ public class DeathLocationDao implements Runnable {
             BufferedWriter deathLocationLogWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(deathLocationLogFile), CHARSET));
 
             for (DeathLocation deathLocation : deathLocations.values()) {
+                log.debug("Deathlocation: ",deathLocation.toString());
                 deathLocationLogWriter.write(deathLocation.toString());
                 deathLocationLogWriter.newLine();
             }

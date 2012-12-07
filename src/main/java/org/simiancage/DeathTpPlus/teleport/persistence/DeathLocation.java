@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
  */
 
 public class DeathLocation {
-    private String playerName;
+    private String playerName = "";
     private Location location;
     private String worldName;
 
