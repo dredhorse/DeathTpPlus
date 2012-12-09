@@ -2,11 +2,7 @@ package org.simiancage.DeathTpPlus.death.events.handlers;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
@@ -32,12 +28,7 @@ import org.simiancage.DeathTpPlus.tomb.models.TombStoneBlock;
 import org.simiancage.DeathTpPlus.tomb.workers.TombWorker;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 //~--- JDK imports ------------------------------------------------------------
 
@@ -150,10 +141,9 @@ public class EntityDeathHandler {
 		if (config.isShowDeathNotify()) {
 			String deathMessage = DeathMessages.getDeathMessage(deathDetail);
 
-			log.debug("deathMessage", deathMessage);
-
 			if (entityDeathEvent instanceof PlayerDeathEvent) {
 				if (config.isDisableDeathNotifyInSpecifiedWorlds() || config.isShowDeathNotifyInDeathWorldOnly()) {
+                    log.debug("deathMessage to selective worlds", deathMessage);
 	                Set<String> notifyWorlds = new HashSet<String>();
 	                
 	                if (config.isShowDeathNotifyInDeathWorldOnly()) {
@@ -161,16 +151,22 @@ public class EntityDeathHandler {
 	                } else {
 	                    notifyWorlds.addAll(getWorldNames());
 	                }
-	                
+	                if (config.isDebugLogEnabled()){
+                        log.debug("Notify to following worlds:");
+                        for (String temp : notifyWorlds){
+                            log.debug(temp);
+                        }
+                    }
 	                if (config.isDisableDeathNotifyInSpecifiedWorlds()) {
 	                	Set<String> tmpWorlds = new HashSet<String>(notifyWorlds);
 	                    for (String world : tmpWorlds) {
 	                        if (config.isDisabledDeathNotifyWorld(world)) {
+                                log.debug("Removing from notify worlds:",world);
 	                            notifyWorlds.remove(world);
 	                        }
 	                    }
 	                }
-	                
+
 	                for (Player player : plugin.getServer().getOnlinePlayers()) {
 	                    if (notifyWorlds.contains(player.getWorld())) {
 	                        player.sendMessage(deathMessage);
@@ -178,6 +174,7 @@ public class EntityDeathHandler {
 	                }
 	                ((PlayerDeathEvent) entityDeathEvent).setDeathMessage("");
 				} else {
+                    log.debug("deathMessage to all worlds", deathMessage);
 					((PlayerDeathEvent) entityDeathEvent).setDeathMessage(deathMessage);
 				}
 
