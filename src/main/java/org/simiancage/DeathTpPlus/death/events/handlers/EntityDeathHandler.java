@@ -168,7 +168,9 @@ public class EntityDeathHandler {
 	                }
 
 	                for (Player player : plugin.getServer().getOnlinePlayers()) {
-	                    if (notifyWorlds.contains(player.getWorld())) {
+                        log.debug("player",player.getName());
+                        log.debug("playerworld ",player.getWorld());
+	                    if (notifyWorlds.contains(player.getWorld().getName())) {
 	                        player.sendMessage(deathMessage);
 	                    }
 	                }

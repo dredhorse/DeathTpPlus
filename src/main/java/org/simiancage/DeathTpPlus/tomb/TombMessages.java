@@ -976,7 +976,7 @@ afterwards parsable again from the configuration class of bukkit
 	 * will set #tombMessagesRequiresUpdate to true if versions are different
 	 */
 	private void updateNecessary() {
-		if (tombMessagesVer.equalsIgnoreCase(tombMessagesCurrent)) {
+		if (tombMessagesCurrent.equalsIgnoreCase(tombMessagesVer)) {
 			log.informational("Tombmessages are up to date");
 		} else {
 			log.warning("Tombmessages are not up to date!");
