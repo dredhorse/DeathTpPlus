@@ -6,6 +6,7 @@
 	<version>4.0.0-SNAPSHOT</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <bukkit.version>1.4.6-R0.3-SNAPSHOT</bukkit.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -37,7 +38,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.4.5-R0.2-SNAPSHOT</version>
+			<version>${bukkit.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.getspout</groupId>

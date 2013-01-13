@@ -40,11 +40,11 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dynmap.DynmapAPI;
+import org.mcstats.Metrics;
 import org.simiancage.DeathTpPlus.commons.ConfigManager;
 import org.simiancage.DeathTpPlus.commons.CraftIRCEndPoint;
 import org.simiancage.DeathTpPlus.commons.DefaultLogger;
 import org.simiancage.DeathTpPlus.commons.DynMapHelper;
-import org.simiancage.DeathTpPlus.commons.Metrics;
 import org.simiancage.DeathTpPlus.commons.listeners.ServerListener;
 import org.simiancage.DeathTpPlus.death.DeathMessages;
 import org.simiancage.DeathTpPlus.death.commands.DeathsCommand;
@@ -329,10 +329,10 @@ public class DeathTpPlus extends JavaPlugin {
 	 */
 	private void metrics() {
 		try {
-			Metrics metrics = new Metrics();
+			Metrics metrics = new Metrics(this);
 
 			// adding plotter DeathTpPlus
-			metrics.addCustomData(plugin, new Metrics.Plotter() {
+			metrics.addCustomData(new Metrics.Plotter() {
 				@Override
 				public String getColumnName() {
 					return "DeathTP enabled";
@@ -351,7 +351,7 @@ public class DeathTpPlus extends JavaPlugin {
 			});
 
 			// adding plotter TombStone
-			metrics.addCustomData(plugin, new Metrics.Plotter() {
+			metrics.addCustomData(new Metrics.Plotter() {
 				@Override
 				public String getColumnName() {
 					return "TombStone enabled";
@@ -370,7 +370,7 @@ public class DeathTpPlus extends JavaPlugin {
 			});
 
 			// adding plotter Tomb
-			metrics.addCustomData(plugin, new Metrics.Plotter() {
+			metrics.addCustomData(new Metrics.Plotter() {
 				@Override
 				public String getColumnName() {
 					return "Tomb enabled";
@@ -387,7 +387,7 @@ public class DeathTpPlus extends JavaPlugin {
 					return enabled;
 				}
 			});
-			metrics.beginMeasuringPlugin(this);
+			metrics.start();
 		} catch (IOException e) {
 			log.severe("Problems submitting plugin stats");
 		}
