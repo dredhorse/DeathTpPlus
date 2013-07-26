@@ -57,7 +57,7 @@ public class StreakRecordDao implements Runnable {
         }
         load();
 
-        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this, SAVE_DELAY, SAVE_PERIOD);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(JavaPlugin, this, SAVE_DELAY, SAVE_PERIOD);
     }
 
     private void load() {
