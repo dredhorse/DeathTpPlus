@@ -171,11 +171,5 @@ public class ServerListener implements Listener {
 			plugin.setWorldGuardPlugin((WorldGuardPlugin) checkWorldGuard);
 			plugin.setWorldGuardEnabled(true);
 		}
-
-		if (checkSpout != null && !plugin.isSpoutEnabled()) {
-			log.info("Enabling Spout integration");
-			plugin.setSpoutPlugin(checkSpout);
-			plugin.setSpoutEnabled(true);
-		}
 	}
 }

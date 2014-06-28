@@ -220,8 +220,6 @@ public class DeathTpPlus extends JavaPlugin {
 	private TombStoneHelper tombStoneHelper;
 	private WorldGuardPlugin worldGuardPlugin;
 	private boolean worldGuardEnabled = false;
-	private Plugin spout;
-	private boolean spoutEnabled = false;
 
 	//~--- methods ------------------------------------------------------------
 
@@ -409,14 +407,6 @@ public class DeathTpPlus extends JavaPlugin {
 
 	public WorldGuardPlugin getWorldGuardPlugin() {
 		return worldGuardPlugin;
-	}
-
-	public boolean isSpoutEnabled() {
-		return spoutEnabled;
-	}
-
-	public Plugin getSpoutPlugin() {
-		return spout;
 	}
 
 	//~--- methods ------------------------------------------------------------
@@ -884,13 +874,5 @@ public class DeathTpPlus extends JavaPlugin {
 
 	public void setWorldGuardPlugin(WorldGuardPlugin worldGuardPlugin) {
 		this.worldGuardPlugin = worldGuardPlugin;
-	}
-
-	public void setSpoutEnabled(boolean b) {
-		spoutEnabled = b;
-	}
-	
-	public void setSpoutPlugin(Plugin spout) {
-	    this.spout = spout;
 	}
 }
