@@ -95,7 +95,7 @@ public class TeleportHelper {
 		// costs economy
 		if (plugin.isEconomyActive()) {
 			log.debug("isEconomyActive", "yes");
-			if (plugin.getEconomy().getBalance(player.getName()) > deathTpCost) {
+			if (plugin.getEconomy().getBalance(player.getName()) >= deathTpCost) {
 				log.debug("hasFunds", true);
 				return true;
 			} else {

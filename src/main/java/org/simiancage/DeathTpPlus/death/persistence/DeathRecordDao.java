@@ -52,7 +52,7 @@ public class DeathRecordDao implements Runnable {
         }
         load();
 
-        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this, SAVE_DELAY, SAVE_PERIOD);
+        Bukkit.getScheduler().runTaskTimer(plugin, this, SAVE_DELAY, SAVE_PERIOD);
     }
 
     private void load() {

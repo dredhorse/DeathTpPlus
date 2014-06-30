@@ -406,7 +406,14 @@ public class DeathTpPlus extends JavaPlugin {
 	}
 
 	public WorldGuardPlugin getWorldGuardPlugin() {
-		return worldGuardPlugin;
+	 Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
+ 
+    // WorldGuard may not be loaded
+    if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+        return null; // Maybe you want throw an exception instead
+    }
+ 
+    return (WorldGuardPlugin) plugin;
 	}
 
 	//~--- methods ------------------------------------------------------------
